@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "esnext"],
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "strict": true,
+    "allowImportingTsExtensions": true,
+    "jsxImportSource": "preact",
+
+    /* modules */
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "paths": {
+      "react": ["./node_modules/preact/compat/"],
+      "react-dom": ["./node_modules/preact/compat/"]
+    }
+  },
+  "include": ["src"]
+}
