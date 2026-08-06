@@ -11,12 +11,14 @@ export const pages: Record<string, Page> = {
     name: 'Home',
     description: 'View all utilities',
     component: lazy(
-      () => import(/* webpackPrefetch: true */ '../pages/Home/Home.tsx'),
+      () => import('../pages/Home/Home.tsx' /* webpackChunkName: "home" */),
     ),
   },
   diff: {
     name: 'Diff',
     description: 'Compare two values',
-    component: lazy(() => import('../pages/Diff/Diff.tsx')),
+    component: lazy(
+      () => import('../pages/Diff/Diff.tsx' /* webpackChunkName: "diff" */),
+    ),
   },
 };

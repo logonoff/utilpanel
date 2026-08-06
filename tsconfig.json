@@ -5,6 +5,7 @@
     "noEmit": true,
     "strict": true,
     "allowImportingTsExtensions": true,
+    "types": ["@rsbuild/core/types"],
     "jsxImportSource": "preact",
 
     /* modules */

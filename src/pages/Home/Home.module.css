@@ -1,0 +1,16 @@
+.item {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.divider {
+  color: var(--shale-v1-text);
+  opacity: 0.6;
+  margin-top: var(--shale-v1-font-1);
+  margin-bottom: 0;
+}
+
+.container {
+  margin: 0 var(--shale-v1-font-0);
+}

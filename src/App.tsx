@@ -1,12 +1,14 @@
 import { Suspense } from 'preact/compat';
+import { Navigation } from './components/Navigation/Navigation.tsx';
+import { NavigationActionProvider } from './contexts/NavigationActionContext.tsx';
 import {
   NavigationProvider,
   useNavigation,
 } from './contexts/NavigationContext.tsx';
 import { pages } from './data/pages.ts';
-import { Navigation } from './layout/Navigation.tsx';
 
 import './App.css';
+import { AboutDialog } from './components/AboutDialog/AboutDialog.tsx';
 
 const RenderPage = () => {
   const { currentPage } = useNavigation();
@@ -22,12 +24,15 @@ const RenderPage = () => {
 
 const App = () => (
   <NavigationProvider>
-    <Navigation />
-    <main>
-      <Suspense fallback={<div>Loading...</div>}>
-        <RenderPage />
-      </Suspense>
-    </main>
+    <NavigationActionProvider>
+      <Navigation />
+      <main>
+        <Suspense fallback={<div>Loading...</div>}>
+          <RenderPage />
+        </Suspense>
+      </main>
+    </NavigationActionProvider>
+    <AboutDialog />
   </NavigationProvider>
 );
 
