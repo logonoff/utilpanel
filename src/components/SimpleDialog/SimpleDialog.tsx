@@ -22,7 +22,7 @@ export const SimpleDialog: React.FC<SimpleDialogProps> = ({
   actions,
 }) => {
   return (
-    <Dialog id={id} style={{ minWidth: '400px' }}>
+    <Dialog id={id} style={{ minWidth: 'min(95vw, 400px)' }}>
       <Header compact>
         <HeaderTitle>
           <HeaderText>{title}</HeaderText>

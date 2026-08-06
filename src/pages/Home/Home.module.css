@@ -2,6 +2,31 @@
   display: flex;
   align-items: flex-start;
   flex-direction: column;
+  width: 300px;
+
+  & > p {
+    font-size: var(--shale-v1-font--1);
+    margin: 0;
+    padding: 0;
+    text-align: left;
+  }
+}
+
+.items {
+  gap: var(--shale-v1-font-0);
+  flex-direction: row;
+  display: flex;
+
+  @media (max-width: 600px) {
+    & {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    & > .item {
+      width: 100%;
+    }
+  }
 }
 
 .divider {
@@ -9,8 +34,4 @@
   opacity: 0.6;
   margin-top: var(--shale-v1-font-1);
   margin-bottom: 0;
-}
-
-.container {
-  margin: 0 var(--shale-v1-font-0);
 }

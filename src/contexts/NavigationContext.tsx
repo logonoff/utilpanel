@@ -1,19 +1,31 @@
 import { createContext } from 'preact';
-import { useContext, useEffect, useMemo, useState } from 'preact/hooks';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'preact/hooks';
+import { NavigationActionProvider } from './NavigationActionContext';
 
 interface NavigationContextType {
   currentPage: string;
   navigateTo: (page: string) => void;
 }
 
+/**
+ * Me: Can I have react router
+ * Mom: We already have react-router at home
+ * React router at home:
+ */
 const NavigationContext = createContext<NavigationContextType | null>(null);
 
 const useHashFragment = () => {
   const [hash, setHash] = useState<string>(window.location.hash.slice(1));
 
-  const updateHash = (newHash: string) => {
+  const updateHash = useCallback((newHash: string) => {
     window.location.hash = newHash;
-  };
+  }, []);
 
   useEffect(() => {
     const handleHashChange = () => {
@@ -44,7 +56,7 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <NavigationContext.Provider value={contextValue}>
-      {children}
+      <NavigationActionProvider>{children}</NavigationActionProvider>
     </NavigationContext.Provider>
   );
 };

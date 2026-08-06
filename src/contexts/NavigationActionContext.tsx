@@ -23,6 +23,7 @@ interface NavigationActionContextValue {
   setActions: (page: string, actions: NavigationActions) => void;
 }
 
+/** Controls global menu bar items */
 const NavigationActionContext = createContext<NavigationActionContextValue>({
   actions: {},
   setActions: () => {},

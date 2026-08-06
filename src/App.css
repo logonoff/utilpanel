@@ -8,3 +8,15 @@ body {
 #root {
   display: contents;
 }
+
+.main {
+  margin: var(--shale-v1-font-0);
+}
+
+.empty {
+  width: 100%;
+  display: flex;
+  opacity: 0.5;
+  font-size: var(--shale-v1-font--1);
+  justify-content: center;
+}

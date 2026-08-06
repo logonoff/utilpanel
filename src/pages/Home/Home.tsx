@@ -1,38 +1,45 @@
-import { Button, FlexContainer, H4 } from '@shalecss/react';
+import { Button, FlexContainer, H4, P } from '@shalecss/react';
 import { useMemo } from 'preact/hooks';
-import { useNavigationActions } from '../../contexts/NavigationActionContext.tsx';
+import {
+  type NavigationActions,
+  useNavigationActions,
+} from '../../contexts/NavigationActionContext.tsx';
 import { useNavigation } from '../../contexts/NavigationContext.tsx';
 import { pages } from '../../data/pages.ts';
 
 import styles from './Home.module.css';
 
+const items = Object.entries(pages).filter(([key]) => key !== 'home');
+
 const Home: React.FC = () => {
   const { navigateTo } = useNavigation();
 
-  const actions = useMemo(() => ({}), []);
+  const actions = useMemo<NavigationActions>(() => ({}), []);
 
   useNavigationActions('home', actions);
 
   return (
-    <FlexContainer Component="main" className={styles.container}>
+    <FlexContainer>
       <H4 Component="h1">
         Random utilities
         <hr class={styles.divider} />
       </H4>
-      <FlexContainer>
-        {Object.entries(pages)
-          .filter(([key]) => key !== 'home')
-          .map(([key, page]) => (
-            <Button
-              className={styles.item}
-              variant="secondary"
-              key={key}
-              onClick={() => navigateTo(key)}
-            >
+      {items.length === 0 && <P className="empty">This app is empty</P>}
+      <FlexContainer className={styles.items}>
+        {items.map(([key, page]) => (
+          <Button
+            className={styles.item}
+            variant="secondary"
+            key={key}
+            onClick={() => navigateTo(key)}
+          >
+            <P>
               <strong>{page.name}</strong>
+              <br />
               {page.description}
-            </Button>
-          ))}
+            </P>
+          </Button>
+        ))}
       </FlexContainer>
     </FlexContainer>
   );
