@@ -2,8 +2,6 @@ import DOMPurify from 'dompurify';
 import { marked } from 'marked';
 import { useEffect, useState } from 'preact/hooks';
 
-import styles from './MarkdownInternal.module.css';
-
 DOMPurify.addHook('afterSanitizeAttributes', (node) => {
   if (node.tagName === 'A') {
     node.setAttribute('target', '_blank');
@@ -78,10 +76,5 @@ export const MarkdownInternal = ({ content }: MarkdownInternalProps) => {
     return <div class="empty">Loading...</div>;
   }
 
-  return (
-    <div
-      class={styles.markdown}
-      dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
-    />
-  );
+  return <div dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />;
 };

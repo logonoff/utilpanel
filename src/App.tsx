@@ -10,6 +10,7 @@ import { pages } from './data/pages.ts';
 
 import './App.css';
 import { AboutDialog } from './components/AboutDialog/AboutDialog.tsx';
+import { ThemeDialog } from './components/ThemeDialog/ThemeDialog.tsx';
 
 const ORIGINAL_TITLE = document.title;
 
@@ -42,6 +43,7 @@ const App = () => (
       </Suspense>
     </main>
     <AboutDialog />
+    <ThemeDialog />
   </NavigationProvider>
 );
 

@@ -29,6 +29,64 @@ const NavigationActionContext = createContext<NavigationActionContextValue>({
   setActions: () => {},
 });
 
+let hue = 0;
+const incrementRainbow = () => {
+  hue = (hue + 1) % 360;
+  document.documentElement.style.setProperty(
+    '--shale-v1-accent',
+    `hsl(${hue}, 100%, 50%)`,
+    'important',
+  );
+};
+
+let rainbowIntervalId: number | null = null;
+
+const defaultActions: NavigationActions = {
+  View: [
+    {
+      name: 'Change theme',
+      command: 'show-modal',
+      commandfor: 'theme-dialog',
+      'aria-haspopup': 'dialog',
+    },
+    {
+      name: 'Rainbow mode',
+      callback: () => {
+        if (rainbowIntervalId) {
+          clearInterval(rainbowIntervalId);
+          rainbowIntervalId = null;
+          document.documentElement.style.removeProperty('--shale-v1-accent');
+        } else {
+          rainbowIntervalId = setInterval(incrementRainbow, 20);
+        }
+      },
+    },
+  ],
+  Help: [
+    {
+      name: 'About',
+      command: 'show-modal',
+      commandfor: 'about-dialog',
+      'aria-haspopup': 'dialog',
+    },
+  ],
+};
+
+const mergeActions = (
+  defaultActions: NavigationActions,
+  pageActions: NavigationActions,
+): NavigationActions => {
+  const merged: NavigationActions = { ...pageActions };
+  for (const group in defaultActions) {
+    if (merged[group]) {
+      merged[group] = [...defaultActions[group], ...merged[group]];
+    } else {
+      merged[group] = defaultActions[group];
+    }
+  }
+  return merged;
+};
+
 export const NavigationActionProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
@@ -47,7 +105,10 @@ export const NavigationActionProvider: React.FC<{
     [],
   );
 
-  const actions = actionsMap[currentPage] || {};
+  const actions = useMemo(() => {
+    const pageActions = actionsMap[currentPage] || {};
+    return mergeActions(defaultActions, pageActions);
+  }, [actionsMap, currentPage]);
 
   const contextValue = useMemo(
     () => ({

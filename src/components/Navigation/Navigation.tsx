@@ -7,65 +7,11 @@ import {
   Nav,
 } from '@shalecss/react';
 import type React from 'preact/compat';
-import { useMemo } from 'preact/compat';
-import {
-  type NavigationActions,
-  useNavigationActionsContext,
-} from '../../contexts/NavigationActionContext.tsx';
+import { useNavigationActionsContext } from '../../contexts/NavigationActionContext.tsx';
 import { useNavigation } from '../../contexts/NavigationContext.tsx';
 import { pages } from '../../data/pages.ts';
 
 import styles from './Navigation.module.css';
-
-let hue = 0;
-const incrementRainbow = () => {
-  hue = (hue + 1) % 360;
-  document.documentElement.style.setProperty(
-    '--shale-v1-accent',
-    `hsl(${hue}, 100%, 50%)`,
-    'important',
-  );
-};
-
-let rainbowIntervalId: number | null = null;
-
-const defaultActions: NavigationActions = {
-  Help: [
-    {
-      name: 'Rainbow mode',
-      callback: () => {
-        if (rainbowIntervalId) {
-          clearInterval(rainbowIntervalId);
-          rainbowIntervalId = null;
-          document.documentElement.style.removeProperty('--shale-v1-accent');
-        } else {
-          rainbowIntervalId = setInterval(incrementRainbow, 20);
-        }
-      },
-    },
-    {
-      name: 'About',
-      command: 'show-modal',
-      commandfor: 'about-dialog',
-      'aria-haspopup': 'dialog',
-    },
-  ],
-};
-
-const mergeActions = (
-  defaultActions: NavigationActions,
-  pageActions: NavigationActions,
-): NavigationActions => {
-  const merged: NavigationActions = { ...pageActions };
-  for (const group in defaultActions) {
-    if (merged[group]) {
-      merged[group] = [...defaultActions[group], ...merged[group]];
-    } else {
-      merged[group] = defaultActions[group];
-    }
-  }
-  return merged;
-};
 
 /** iframe === windowed mode */
 const IS_IN_IFRAME = window.self !== window.top;
@@ -105,11 +51,6 @@ export const Navigation: React.FC = () => {
   const { currentPage } = useNavigation();
   const { actions } = useNavigationActionsContext();
 
-  const mergedActions = useMemo(
-    () => mergeActions(defaultActions, actions),
-    [actions, currentPage],
-  );
-
   return (
     <Header>
       <HeaderBar />
@@ -119,12 +60,9 @@ export const Navigation: React.FC = () => {
             Home
           </Button>
         )}
-        {Object.keys(mergedActions).map((group) => {
-          if (
-            mergedActions[group].length === 1 &&
-            mergedActions[group][0].name === group
-          ) {
-            const action = mergedActions[group][0];
+        {Object.keys(actions).map((group) => {
+          if (actions[group].length === 1 && actions[group][0].name === group) {
+            const action = actions[group][0];
             return (
               <Button
                 key={group}
@@ -154,7 +92,7 @@ export const Navigation: React.FC = () => {
                 {group}
               </Button>
               <Card Component="menu" popover id={popoverId}>
-                {mergedActions[group].map((action) => (
+                {actions[group].map((action) => (
                   <li key={action.name}>
                     <Button
                       variant="secondary"

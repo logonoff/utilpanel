@@ -14,11 +14,14 @@ export const pages: Record<string, Page> = {
       () => import('../pages/Home/Home.tsx' /* webpackChunkName: "home" */),
     ),
   },
-  diff: {
-    name: 'Diff',
-    description: 'Compare two values',
+  diffviewer: {
+    name: 'Diff Viewer',
+    description: 'Colourize a diff file for easier reading',
     component: lazy(
-      () => import('../pages/Diff/Diff.tsx' /* webpackChunkName: "diff" */),
+      () =>
+        import(
+          '../pages/DiffViewer/DiffViewer.tsx' /* webpackChunkName: "diffviewer" */
+        ),
     ),
   },
   ghchangelog: {
