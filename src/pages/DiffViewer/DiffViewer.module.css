@@ -1,23 +1,31 @@
 .added {
-    background: color-mix(in srgb, var(--shale-v1-note-tip-text) 5%, transparent 95%);
-    color: var(--shale-v1-note-tip-text);
+  background: color-mix(
+    in srgb,
+    var(--shale-v1-note-tip-text) 5%,
+    transparent 95%
+  );
+  color: var(--shale-v1-note-tip-text);
 }
 
 .removed {
-    background: color-mix(in srgb, var(--shale-v1-note-alert-text) 5%, transparent 95%);
-    color: var(--shale-v1-note-alert-text);
+  background: color-mix(
+    in srgb,
+    var(--shale-v1-note-alert-text) 5%,
+    transparent 95%
+  );
+  color: var(--shale-v1-note-alert-text);
 }
 
 .neutral {
-    opacity: 0.75;
+  opacity: 0.75;
 }
 
 .form {
-    display: flex;
-    width: 100%;
-    gap: var(--shale-v1-font--2);
+  display: flex;
+  width: 100%;
+  gap: var(--shale-v1-font--2);
 }
 
 .input {
-    flex-grow: 1;
+  flex-grow: 1;
 }

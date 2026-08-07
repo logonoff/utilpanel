@@ -9,22 +9,22 @@ import {
 } from 'preact/hooks';
 import { useNavigation } from './NavigationContext';
 
-interface NavigationAction extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface CommandBarAction extends ButtonHTMLAttributes<HTMLButtonElement> {
   name: string;
   callback?: () => void;
 }
 
-export interface NavigationActions {
-  [key: string]: NavigationAction[];
+export interface CommandBarActions {
+  [key: string]: CommandBarAction[];
 }
 
-interface NavigationActionContextValue {
-  actions: NavigationActions;
-  setActions: (page: string, actions: NavigationActions) => void;
+interface CommandBarContextValue {
+  actions: CommandBarActions;
+  setActions: (page: string, actions: CommandBarActions) => void;
 }
 
-/** Controls global menu bar items */
-const NavigationActionContext = createContext<NavigationActionContextValue>({
+/** Controls global command bar items */
+const CommandBarContext = createContext<CommandBarContextValue>({
   actions: {},
   setActions: () => {},
 });
@@ -41,7 +41,7 @@ const incrementRainbow = () => {
 
 let rainbowIntervalId: number | null = null;
 
-const defaultActions: NavigationActions = {
+const defaultActions: CommandBarActions = {
   View: [
     {
       name: 'Change theme',
@@ -73,10 +73,10 @@ const defaultActions: NavigationActions = {
 };
 
 const mergeActions = (
-  defaultActions: NavigationActions,
-  pageActions: NavigationActions,
-): NavigationActions => {
-  const merged: NavigationActions = { ...pageActions };
+  defaultActions: CommandBarActions,
+  pageActions: CommandBarActions,
+): CommandBarActions => {
+  const merged: CommandBarActions = { ...pageActions };
   for (const group in defaultActions) {
     if (merged[group]) {
       merged[group] = [...defaultActions[group], ...merged[group]];
@@ -87,23 +87,20 @@ const mergeActions = (
   return merged;
 };
 
-export const NavigationActionProvider: React.FC<{
+export const CommandBarProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const [actionsMap, setActionsMap] = useState<
-    Record<string, Record<string, NavigationAction[]>>
+    Record<string, CommandBarActions>
   >({});
   const { currentPage } = useNavigation();
 
-  const setActions = useCallback(
-    (page: string, actions: Record<string, NavigationAction[]>) => {
-      setActionsMap((prev) => ({
-        ...prev,
-        [page]: actions,
-      }));
-    },
-    [],
-  );
+  const setActions = useCallback((page: string, actions: CommandBarActions) => {
+    setActionsMap((prev) => ({
+      ...prev,
+      [page]: actions,
+    }));
+  }, []);
 
   const actions = useMemo(() => {
     const pageActions = actionsMap[currentPage] || {};
@@ -119,27 +116,24 @@ export const NavigationActionProvider: React.FC<{
   );
 
   return (
-    <NavigationActionContext.Provider value={contextValue}>
+    <CommandBarContext.Provider value={contextValue}>
       {children}
-    </NavigationActionContext.Provider>
+    </CommandBarContext.Provider>
   );
 };
 
-export const useNavigationActionsContext = () => {
-  const context = useContext(NavigationActionContext);
+export const useCommandBarContext = () => {
+  const context = useContext(CommandBarContext);
   if (!context) {
     throw new Error(
-      'useNavigationActionsContext must be used within a NavigationActionProvider',
+      'useCommandBarContext must be used within a CommandBarProvider',
     );
   }
   return context;
 };
 
-export const useNavigationActions = (
-  page: string,
-  actions: NavigationActions,
-) => {
-  const { setActions } = useNavigationActionsContext();
+export const useCommandBar = (page: string, actions: CommandBarActions) => {
+  const { setActions } = useCommandBarContext();
 
   useEffect(() => {
     setActions(page, actions);

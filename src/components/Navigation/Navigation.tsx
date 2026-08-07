@@ -7,7 +7,7 @@ import {
   Nav,
 } from '@shalecss/react';
 import type React from 'preact/compat';
-import { useNavigationActionsContext } from '../../contexts/NavigationActionContext.tsx';
+import { useCommandBarContext } from '../../contexts/CommandBarContext.tsx';
 import { useNavigation } from '../../contexts/NavigationContext.tsx';
 import { pages } from '../../data/pages.ts';
 
@@ -37,7 +37,10 @@ const HeaderBar: React.FC = IS_IN_IFRAME
             {currentPage !== 'home' && pages[currentPage] && (
               <>
                 <span class={styles.arrow}>▶</span>
-                <MenuBarButton href="#" onClick={() => navigateTo(currentPage)}>
+                <MenuBarButton
+                  href={`#${currentPage}`}
+                  onClick={() => navigateTo(currentPage)}
+                >
                   {pages[currentPage].name}
                 </MenuBarButton>
               </>
@@ -49,7 +52,7 @@ const HeaderBar: React.FC = IS_IN_IFRAME
 
 export const Navigation: React.FC = () => {
   const { currentPage } = useNavigation();
-  const { actions } = useNavigationActionsContext();
+  const { actions } = useCommandBarContext();
 
   return (
     <Header>

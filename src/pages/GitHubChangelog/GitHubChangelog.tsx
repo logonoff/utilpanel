@@ -11,9 +11,9 @@ import {
 import { useCallback, useMemo, useState } from 'preact/hooks';
 import { Markdown } from '../../components/Markdown/Markdown';
 import {
-  type NavigationActions,
-  useNavigationActions,
-} from '../../contexts/NavigationActionContext';
+  type CommandBarActions,
+  useCommandBar,
+} from '../../contexts/CommandBarContext';
 
 import styles from './GitHubChangelog.module.css';
 
@@ -120,7 +120,7 @@ const GitHubChangelog: React.FC = () => {
     [],
   );
 
-  const actions = useMemo<NavigationActions>(
+  const actions = useMemo<CommandBarActions>(
     () => ({
       Download: [
         {
@@ -137,7 +137,7 @@ const GitHubChangelog: React.FC = () => {
     [markdown],
   );
 
-  useNavigationActions('ghchangelog', actions);
+  useCommandBar('ghchangelog', actions);
 
   return (
     <FlexContainer className={styles.wrapper}>

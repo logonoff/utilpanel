@@ -1,9 +1,9 @@
 import { Button, FlexContainer, H4, P } from '@shalecss/react';
 import { useMemo } from 'preact/hooks';
 import {
-  type NavigationActions,
-  useNavigationActions,
-} from '../../contexts/NavigationActionContext.tsx';
+  type CommandBarActions,
+  useCommandBar,
+} from '../../contexts/CommandBarContext.tsx';
 import { useNavigation } from '../../contexts/NavigationContext.tsx';
 import { pages } from '../../data/pages.ts';
 
@@ -14,9 +14,9 @@ const items = Object.entries(pages).filter(([key]) => key !== 'home');
 const Home: React.FC = () => {
   const { navigateTo } = useNavigation();
 
-  const actions = useMemo<NavigationActions>(() => ({}), []);
+  const actions = useMemo<CommandBarActions>(() => ({}), []);
 
-  useNavigationActions('home', actions);
+  useCommandBar('home', actions);
 
   return (
     <FlexContainer>

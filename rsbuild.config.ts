@@ -1,5 +1,6 @@
 import { defineConfig } from '@rsbuild/core';
 import { pluginPreact } from '@rsbuild/plugin-preact';
+import { pluginTypeCheck } from '@rsbuild/plugin-type-check';
 
 // Docs: https://rsbuild.rs/config/
 export default defineConfig({
@@ -9,5 +10,5 @@ export default defineConfig({
   output: {
     assetPrefix: 'auto',
   },
-  plugins: [pluginPreact()],
+  plugins: [pluginTypeCheck(), pluginPreact()],
 });
