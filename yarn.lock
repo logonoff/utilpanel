@@ -893,6 +893,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"diff@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "diff@npm:9.0.0"
+  checksum: 10c0/a971cc88f66071a33bd3942db2f51b57d484e9856265ae45cf44fb28ab2fde91f132d9c26d8be0fb6082d2be94d29e1295c1adb251b7461935d6a2dd304cd161
+  languageName: node
+  linkType: hard
+
 "dompurify@npm:^3.4.13":
   version: 3.4.13
   resolution: "dompurify@npm:3.4.13"
@@ -1425,6 +1432,7 @@ __metadata:
     "@rsbuild/plugin-preact": "npm:^2.0.0"
     "@rsbuild/plugin-type-check": "npm:^1.6.0"
     "@shalecss/react": "npm:^0.0.3"
+    diff: "npm:^9.0.0"
     dompurify: "npm:^3.4.13"
     marked: "npm:^18.0.9"
     preact: "npm:^10.29.8"

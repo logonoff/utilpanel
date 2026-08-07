@@ -1,6 +1,5 @@
 import {
   Button,
-  Code,
   FlexContainer,
   FlexForm,
   Input,
@@ -9,10 +8,12 @@ import {
   P,
 } from '@shalecss/react';
 import { useCallback, useMemo, useState } from 'preact/hooks';
+import { Diff } from '../../components/Diff/Diff';
 import {
   type CommandBarActions,
   useCommandBar,
 } from '../../contexts/CommandBarContext';
+import { openFile } from '../../utils/open-file';
 import { saveFile } from '../../utils/save-file';
 import styles from './DiffViewer.module.css';
 
@@ -35,7 +36,7 @@ const translateGitHubPrLinkToApiUrl = (url: string): string => {
   }
 };
 
-const Diff: React.FC = () => {
+const DiffViewer: React.FC = () => {
   const [text, setText] = useState<string | null | false>(null);
   const [error, setError] = useState<{ title: string; message: string } | null>(
     null,
@@ -90,29 +91,7 @@ const Diff: React.FC = () => {
       File: [
         {
           name: 'Open',
-          callback: () => {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.diff,.patch';
-            input.onchange = (e) => {
-              const file = (e.target as HTMLInputElement).files?.[0];
-              if (file) {
-                const reader = new FileReader();
-                reader.onload = () => {
-                  setText(reader.result as string);
-                  setError(null);
-                };
-                reader.onerror = () => {
-                  setError({
-                    title: 'File Read Error',
-                    message: 'Failed to read the file.',
-                  });
-                };
-                reader.readAsText(file);
-              }
-            };
-            input.click();
-          },
+          callback: () => openFile(setText, '.txt,.diff,.patch'),
         },
         {
           name: 'Download',
@@ -170,26 +149,9 @@ const Diff: React.FC = () => {
           <NoteText>{error.message}</NoteText>
         </Note>
       )}
-      {typeof text === 'string' && (
-        <Code Component="pre">
-          {text?.split('\n').map((line, index) => (
-            <div
-              key={index}
-              className={
-                line.startsWith('+')
-                  ? styles.added
-                  : line.startsWith('-')
-                    ? styles.removed
-                    : styles.neutral
-              }
-            >
-              {line}
-            </div>
-          ))}
-        </Code>
-      )}
+      {typeof text === 'string' && <Diff text={text} />}
     </FlexContainer>
   );
 };
 
-export default Diff;
+export default DiffViewer;

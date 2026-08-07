@@ -1,0 +1,28 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.before,
+.after {
+  display: flex;
+
+  & textarea {
+    resize: vertical;
+    height: 100%;
+    font-family: var(--shale-v1-font-family-mono);
+  }
+
+  & > * {
+    flex-grow: 1;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.diff {
+  grid-column: span 2 / span 2;
+  grid-row-start: 2;
+}

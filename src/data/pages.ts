@@ -24,6 +24,16 @@ export const pages: Record<string, Page> = {
         ),
     ),
   },
+  livediff: {
+    name: 'Live Diff',
+    description: 'View a live diff of a file in a GitHub repository',
+    component: lazy(
+      () =>
+        import(
+          '../pages/LiveDiff/LiveDiff.tsx' /* webpackChunkName: "livediff" */
+        ),
+    ),
+  },
   ghchangelog: {
     name: 'GitHub Changelog Viewer',
     description: 'Nicer frontend for changelogs hosted on GitHub releases',

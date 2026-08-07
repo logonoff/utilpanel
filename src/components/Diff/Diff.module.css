@@ -1,0 +1,21 @@
+.added {
+  background: color-mix(
+    in srgb,
+    var(--shale-v1-note-tip-text) 5%,
+    transparent 95%
+  );
+  color: var(--shale-v1-note-tip-text);
+}
+
+.removed {
+  background: color-mix(
+    in srgb,
+    var(--shale-v1-note-alert-text) 5%,
+    transparent 95%
+  );
+  color: var(--shale-v1-note-alert-text);
+}
+
+.neutral {
+  opacity: 0.75;
+}
