@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@shalecss/react": "^0.0.3",
+    "dompurify": "^3.4.13",
+    "marked": "^18.0.9",
     "preact": "^10.29.8"
   },
   "devDependencies": {

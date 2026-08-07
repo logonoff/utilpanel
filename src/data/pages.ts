@@ -21,4 +21,14 @@ export const pages: Record<string, Page> = {
       () => import('../pages/Diff/Diff.tsx' /* webpackChunkName: "diff" */),
     ),
   },
+  ghchangelog: {
+    name: 'GitHub Changelog Viewer',
+    description: 'Nicer frontend for changelogs hosted on GitHub releases',
+    component: lazy(
+      () =>
+        import(
+          '../pages/GitHubChangelog/GitHubChangelog.tsx' /* webpackChunkName: "ghchangelog" */
+        ),
+    ),
+  },
 };
