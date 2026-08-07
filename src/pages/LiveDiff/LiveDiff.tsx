@@ -1,4 +1,4 @@
-import { P, Textarea } from '@shalecss/react';
+import { FlexContainer, P, Textarea } from '@shalecss/react';
 import { diffLines } from 'diff';
 import { useCallback, useEffect, useMemo, useState } from 'preact/hooks';
 import { Diff } from '../../components/Diff/Diff';
@@ -8,6 +8,7 @@ import {
 } from '../../contexts/CommandBarContext';
 import { openFile } from '../../utils/open-file';
 import { saveFile } from '../../utils/save-file';
+import { openTextInNewTab } from '../../utils/text-in-new-tab';
 import styles from './LiveDiff.module.css';
 
 const LiveDiff: React.FC = () => {
@@ -59,22 +60,22 @@ const LiveDiff: React.FC = () => {
           disabled: !diff,
         },
         {
+          name: 'Open in new tab',
+          callback: () => {
+            if (diff) {
+              openTextInNewTab(diff);
+            }
+          },
+          disabled: !diff,
+        },
+      ],
+      Edit: [
+        {
           name: 'Clear',
           callback: () => {
             setBefore('');
             setAfter('');
             setDiff(undefined);
-          },
-          disabled: !diff,
-        },
-        {
-          name: 'Open in new tab',
-          callback: () => {
-            if (diff) {
-              const blob = new Blob([diff], { type: 'text/plain' });
-              const url = URL.createObjectURL(blob);
-              window.open(url, '_blank');
-            }
           },
           disabled: !diff,
         },
@@ -86,20 +87,22 @@ const LiveDiff: React.FC = () => {
   useCommandBar('livediff', actions);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.before}>
-        <Textarea
-          placeholder="Original text"
-          value={before}
-          onChange={(e) => setBefore(e.currentTarget.value)}
-        />
-      </div>
-      <div className={styles.after}>
-        <Textarea
-          placeholder="Modified text"
-          value={after}
-          onChange={(e) => setAfter(e.currentTarget.value)}
-        />
+    <FlexContainer>
+      <div className={styles.input}>
+        <div className={styles.before}>
+          <Textarea
+            placeholder="Original text"
+            value={before}
+            onChange={(e) => setBefore(e.currentTarget.value)}
+          />
+        </div>
+        <div className={styles.after}>
+          <Textarea
+            placeholder="Modified text"
+            value={after}
+            onChange={(e) => setAfter(e.currentTarget.value)}
+          />
+        </div>
       </div>
       <div className={styles.diff}>
         {typeof diff === 'string' && <Diff text={diff} />}
@@ -107,7 +110,7 @@ const LiveDiff: React.FC = () => {
           <P className="empty">Diff will appear here</P>
         )}
       </div>
-    </div>
+    </FlexContainer>
   );
 };
 

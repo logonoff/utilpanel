@@ -1,11 +1,9 @@
-import { P } from '@shalecss/react';
+import { Link, P } from '@shalecss/react';
 import { Suspense } from 'preact/compat';
 import { useEffect } from 'preact/hooks';
 import { Navigation } from './components/Navigation/Navigation.tsx';
-import {
-  NavigationProvider,
-  useNavigation,
-} from './contexts/NavigationContext.tsx';
+import { useNavigation } from './contexts/NavigationContext.tsx';
+import { Providers } from './contexts/Providers.tsx';
 import { pages } from './data/pages.ts';
 
 import './App.css';
@@ -26,7 +24,11 @@ const RenderPage = () => {
   }, [currentPage]);
 
   if (!(currentPage && pages[currentPage])) {
-    return <P className="empty">Page not found</P>;
+    return (
+      <P className="empty">
+        Page not found.&nbsp;<Link href="#">Return home</Link>
+      </P>
+    );
   }
 
   const LazyComponent = pages[currentPage].component;
@@ -35,7 +37,7 @@ const RenderPage = () => {
 };
 
 const App = () => (
-  <NavigationProvider>
+  <Providers>
     <Navigation />
     <main class="main">
       <Suspense fallback={<P className="empty">Loading...</P>}>
@@ -44,7 +46,7 @@ const App = () => (
     </main>
     <AboutDialog />
     <ThemeDialog />
-  </NavigationProvider>
+  </Providers>
 );
 
 export default App;

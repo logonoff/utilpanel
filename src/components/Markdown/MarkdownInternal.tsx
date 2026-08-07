@@ -2,6 +2,8 @@ import DOMPurify from 'dompurify';
 import { marked } from 'marked';
 import { useMemo } from 'preact/hooks';
 
+import styles from './MarkdownInternal.module.css';
+
 DOMPurify.addHook('afterSanitizeAttributes', (node) => {
   switch (node.tagName) {
     case 'A':
@@ -55,5 +57,10 @@ interface MarkdownInternalProps {
 export const MarkdownInternal = ({ content }: MarkdownInternalProps) => {
   const sanitizedHTML = useMemo(() => parseMarkdown(content), [content]);
 
-  return <div dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />;
+  return (
+    <article
+      class={styles.markdown}
+      dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
+    />
+  );
 };

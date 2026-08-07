@@ -15,6 +15,7 @@ import {
 } from '../../contexts/CommandBarContext';
 import { openFile } from '../../utils/open-file';
 import { saveFile } from '../../utils/save-file';
+import { openTextInNewTab } from '../../utils/text-in-new-tab';
 import styles from './DiffViewer.module.css';
 
 const translateGitHubPrLinkToApiUrl = (url: string): string => {
@@ -101,8 +102,18 @@ const DiffViewer: React.FC = () => {
           },
           disabled: !text,
         },
+
+        {
+          name: 'Open in new tab',
+          callback: () => {
+            if (text) {
+              openTextInNewTab(text);
+            }
+          },
+          disabled: !text,
+        },
       ],
-      View: [
+      Edit: [
         {
           name: 'Clear diff',
           callback: () => {
@@ -110,17 +121,6 @@ const DiffViewer: React.FC = () => {
             setError(null);
           },
           disabled: !text && !error,
-        },
-        {
-          name: 'Open in new tab',
-          callback: () => {
-            if (text) {
-              const blob = new Blob([text], { type: 'text/plain' });
-              const url = URL.createObjectURL(blob);
-              window.open(url, '_blank');
-            }
-          },
-          disabled: !text,
         },
       ],
     }),

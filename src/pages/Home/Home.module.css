@@ -16,6 +16,7 @@
   gap: var(--shale-v1-font-0);
   flex-direction: row;
   display: flex;
+  flex-wrap: wrap;
 
   @media (max-width: 600px) {
     & {

@@ -96,8 +96,7 @@ export const CommandBarProvider: React.FC<{
   const { currentPage } = useNavigation();
 
   const setActions = useCallback((page: string, actions: CommandBarActions) => {
-    setActionsMap((prev) => ({
-      ...prev,
+    setActionsMap(() => ({
       [page]: actions,
     }));
   }, []);

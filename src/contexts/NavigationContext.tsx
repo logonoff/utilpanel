@@ -6,7 +6,6 @@ import {
   useMemo,
   useState,
 } from 'preact/hooks';
-import { CommandBarProvider } from './CommandBarContext';
 
 interface NavigationContextType {
   currentPage: string;
@@ -56,7 +55,7 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <NavigationContext.Provider value={contextValue}>
-      <CommandBarProvider>{children}</CommandBarProvider>
+      {children}
     </NavigationContext.Provider>
   );
 };

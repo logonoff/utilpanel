@@ -15,6 +15,7 @@ import {
   useCommandBar,
 } from '../../contexts/CommandBarContext';
 import { saveFile } from '../../utils/save-file';
+import { openTextInNewTab } from '../../utils/text-in-new-tab';
 import styles from './GitHubChangelog.module.css';
 
 /** demotes all markdown headings by 1 level */
@@ -91,8 +92,13 @@ const GitHubChangelog: React.FC = () => {
             demoteMarkdownHeadings(
               data
                 .map(
-                  (release: { name: string; tag_name: string; body: string }) =>
-                    `# [${release.name || release.tag_name}](https://github.com/${owner}/${repo}/releases/tag/${release.tag_name})\n\n${release.body || ''}`,
+                  (release: {
+                    name: string;
+                    tag_name: string;
+                    published_at: string;
+                    body: string;
+                  }) =>
+                    `# [${release.name || release.tag_name}](https://github.com/${owner}/${repo}/releases/tag/${release.tag_name}) - <time datetime="${release.published_at}">${new Date(release.published_at).toLocaleDateString('en-CA')}</time>\n\n${release.body || ''}`,
                 )
                 .join('\n\n'),
             ),
@@ -109,7 +115,7 @@ const GitHubChangelog: React.FC = () => {
 
   const actions = useMemo<CommandBarActions>(
     () => ({
-      Download: [
+      File: [
         {
           name: 'Download',
           callback: () => {
@@ -118,6 +124,30 @@ const GitHubChangelog: React.FC = () => {
             }
           },
           disabled: !markdown,
+        },
+        {
+          name: 'Open in new tab',
+          callback: () => {
+            if (markdown) {
+              openTextInNewTab(
+                markdown,
+                'text/markdown;charset=utf-8; variant=GFM',
+              );
+            }
+          },
+          disabled: !markdown,
+        },
+      ],
+      Edit: [
+        {
+          name: 'Clear',
+          callback: () => {
+            setMarkdown(undefined);
+            setError(null);
+            document.querySelectorAll('form input').forEach((input) => {
+              (input as HTMLInputElement).value = '';
+            });
+          },
         },
       ],
     }),

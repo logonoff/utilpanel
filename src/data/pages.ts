@@ -26,7 +26,7 @@ export const pages: Record<string, Page> = {
   },
   livediff: {
     name: 'Live Diff',
-    description: 'View a live diff of a file in a GitHub repository',
+    description: 'View a live diff of some plain text',
     component: lazy(
       () =>
         import(
