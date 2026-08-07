@@ -79,7 +79,7 @@ const mergeActions = (
   const merged: CommandBarActions = { ...pageActions };
   for (const group in defaultActions) {
     if (merged[group]) {
-      merged[group] = [...defaultActions[group], ...merged[group]];
+      merged[group] = [...merged[group], ...defaultActions[group]];
     } else {
       merged[group] = defaultActions[group];
     }

@@ -1,5 +1,7 @@
-import { Button, FlexContainer, P } from '@shalecss/react';
+import { Button, FlexContainer, Link, P } from '@shalecss/react';
 import { SimpleDialog } from '../SimpleDialog/SimpleDialog';
+
+const COMMIT = process.env.COMMIT_HASH || 'unknown';
 
 export const AboutDialog: React.FC = () => {
   return (
@@ -12,8 +14,21 @@ export const AboutDialog: React.FC = () => {
         </Button>
       }
     >
-      <FlexContainer variant="center">
-        <P>utilpanel - WIP</P>
+      <FlexContainer variant="center" style="align-items: center">
+        <img src="favicon.ico" alt="Logo" width={64} height={64} />
+        <P>
+          utilpanel
+          <br />
+          <span style="opacity: 0.5">commit {COMMIT.slice(0, 8)}</span>
+          <br />
+          <Link
+            href={`https://github.com/logonoff/utilpanel/tree/${COMMIT}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View source
+          </Link>
+        </P>
       </FlexContainer>
     </SimpleDialog>
   );

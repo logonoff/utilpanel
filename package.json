@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "rsbuild build",
+    "build": "COMMIT_HASH=$(git rev-parse HEAD) rsbuild build",
     "check": "biome check --write",
-    "dev": "rsbuild --open",
+    "dev": "COMMIT_HASH=$(git rev-parse HEAD) rsbuild --open",
     "format": "biome format --write",
     "preview": "rsbuild preview"
   },

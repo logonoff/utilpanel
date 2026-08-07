@@ -14,7 +14,7 @@ import {
   type CommandBarActions,
   useCommandBar,
 } from '../../contexts/CommandBarContext';
-
+import { saveFile } from '../../utils/save-file';
 import styles from './GitHubChangelog.module.css';
 
 /** demotes all markdown headings by 1 level */
@@ -23,18 +23,6 @@ const demoteMarkdownHeadings = (markdown: string): string => {
     const newLevel = Math.min(hashes.length + 1, 6);
     return `${'#'.repeat(newLevel)} `;
   });
-};
-
-const saveFile = (content: string, filename: string) => {
-  const blob = new Blob([content], { type: 'text/markdown' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
 };
 
 const GitHubChangelog: React.FC = () => {

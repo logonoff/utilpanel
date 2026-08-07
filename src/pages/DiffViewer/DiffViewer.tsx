@@ -8,8 +8,12 @@ import {
   NoteText,
   P,
 } from '@shalecss/react';
-import { useCallback, useState } from 'preact/hooks';
-
+import { useCallback, useMemo, useState } from 'preact/hooks';
+import {
+  type CommandBarActions,
+  useCommandBar,
+} from '../../contexts/CommandBarContext';
+import { saveFile } from '../../utils/save-file';
 import styles from './DiffViewer.module.css';
 
 const translateGitHubPrLinkToApiUrl = (url: string): string => {
@@ -80,6 +84,72 @@ const Diff: React.FC = () => {
     },
     [],
   );
+
+  const actions = useMemo<CommandBarActions>(
+    () => ({
+      File: [
+        {
+          name: 'Open',
+          callback: () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.diff,.patch';
+            input.onchange = (e) => {
+              const file = (e.target as HTMLInputElement).files?.[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                  setText(reader.result as string);
+                  setError(null);
+                };
+                reader.onerror = () => {
+                  setError({
+                    title: 'File Read Error',
+                    message: 'Failed to read the file.',
+                  });
+                };
+                reader.readAsText(file);
+              }
+            };
+            input.click();
+          },
+        },
+        {
+          name: 'Download',
+          callback: () => {
+            if (text) {
+              saveFile(text, 'diff.diff');
+            }
+          },
+          disabled: !text,
+        },
+      ],
+      View: [
+        {
+          name: 'Clear diff',
+          callback: () => {
+            setText(null);
+            setError(null);
+          },
+          disabled: !text && !error,
+        },
+        {
+          name: 'Open in new tab',
+          callback: () => {
+            if (text) {
+              const blob = new Blob([text], { type: 'text/plain' });
+              const url = URL.createObjectURL(blob);
+              window.open(url, '_blank');
+            }
+          },
+          disabled: !text,
+        },
+      ],
+    }),
+    [text],
+  );
+
+  useCommandBar('diffviewer', actions);
 
   return (
     <FlexContainer>
