@@ -74,7 +74,6 @@ const DiffViewer: React.FC = () => {
           setError(null);
         })
         .catch((err) => {
-          console.error('Error fetching diff:', err);
           setError(
             err instanceof Error
               ? { title: `HTTP Error ${err.cause}!`, message: err.message }

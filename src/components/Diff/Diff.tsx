@@ -11,7 +11,7 @@ export const Diff: React.FC<DiffProps> = ({ text }) => (
     {text?.split('\n').map((line, index) => (
       <div
         key={index}
-        className={
+        class={
           line.startsWith('+')
             ? styles.added
             : line.startsWith('-')

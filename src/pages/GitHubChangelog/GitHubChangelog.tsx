@@ -87,13 +87,12 @@ const GitHubChangelog: React.FC = () => {
           return response.json();
         })
         .then((data) => {
-          console.log('Fetched changelog data:', data);
           setMarkdown(
             demoteMarkdownHeadings(
               data
                 .map(
                   (release: { name: string; tag_name: string; body: string }) =>
-                    `# ${release.name || release.tag_name}\n\n${release.body || ''}`,
+                    `# [${release.name || release.tag_name}](https://github.com/${owner}/${repo}/releases/tag/${release.tag_name})\n\n${release.body || ''}`,
                 )
                 .join('\n\n'),
             ),
