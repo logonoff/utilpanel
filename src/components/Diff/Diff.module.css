@@ -1,21 +1,37 @@
-.added {
+.added,
+.removed {
+  --highlight-factor: 5%;
+}
+
+.addedWord,
+.removedWord {
+  --highlight-factor: 20%;
+}
+
+.added,
+.addedWord {
   background: color-mix(
     in srgb,
-    var(--shale-v1-note-tip-text) 5%,
-    transparent 95%
+    var(--shale-v1-note-tip-text) var(--highlight-factor),
+    transparent calc(100% - var(--highlight-factor))
   );
   color: var(--shale-v1-note-tip-text);
 }
 
-.removed {
+.removed,
+.removedWord {
   background: color-mix(
     in srgb,
-    var(--shale-v1-note-alert-text) 5%,
-    transparent 95%
+    var(--shale-v1-note-alert-text) var(--highlight-factor),
+    transparent calc(100% - var(--highlight-factor))
   );
   color: var(--shale-v1-note-alert-text);
 }
 
 .neutral {
   opacity: 0.75;
+}
+
+.header {
+  opacity: 0.5;
 }
