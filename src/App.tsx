@@ -31,7 +31,7 @@ const RenderPage = () => {
     );
   }
 
-  const LazyComponent = pages[currentPage].component;
+  const LazyComponent = pages[currentPage].component.Component;
 
   return <LazyComponent />;
 };

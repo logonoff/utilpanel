@@ -18,8 +18,8 @@
     "preact": "^10.29.8"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.7",
-    "@rsbuild/core": "^2.1.10",
+    "@biomejs/biome": "2.5.8",
+    "@rsbuild/core": "^2.1.11",
     "@rsbuild/plugin-preact": "^2.0.0",
     "@rsbuild/plugin-type-check": "^1.6.0",
     "typescript": "^7.0.2"

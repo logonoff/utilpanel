@@ -6,6 +6,7 @@ import {
 } from '../../contexts/CommandBarContext.tsx';
 import { useNavigation } from '../../contexts/NavigationContext.tsx';
 import { pages } from '../../data/pages.ts';
+import { getPreloadPageProps } from '../../utils/preload-page.ts';
 
 import styles from './Home.module.css';
 
@@ -31,7 +32,10 @@ const Home: React.FC = () => {
             className={styles.item}
             variant="secondary"
             key={key}
+            href={`#${key}`}
+            Component="a"
             onClick={() => navigateTo(key)}
+            {...getPreloadPageProps(key)}
           >
             <P>
               <strong>{page.name}</strong>

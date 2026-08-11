@@ -10,8 +10,23 @@ import type React from 'preact/compat';
 import { useCommandBarContext } from '../../contexts/CommandBarContext.tsx';
 import { useNavigation } from '../../contexts/NavigationContext.tsx';
 import { pages } from '../../data/pages.ts';
+import { getPreloadPageProps } from '../../utils/preload-page.ts';
 
 import styles from './Navigation.module.css';
+
+const HeaderBarButton: React.FC<{ page: string }> = ({ page }) => {
+  const { navigateTo } = useNavigation();
+
+  return (
+    <MenuBarButton
+      href={`#${page}`}
+      onClick={() => navigateTo(page)}
+      {...getPreloadPageProps(page)}
+    >
+      {pages[page]?.name || page}
+    </MenuBarButton>
+  );
+};
 
 /** iframe === windowed mode */
 const IS_IN_IFRAME = window.self !== window.top;
@@ -27,22 +42,18 @@ const HeaderBar: React.FC = IS_IN_IFRAME
             <MenuBarButton
               onClick={() => navigateTo('home')}
               className={styles.logo}
+              href="#home"
+              tabIndex={-1} // duplicate link so no point having it tabbable
+              {...getPreloadPageProps('home')}
             >
               <img src="favicon.ico" alt="Logo" />
             </MenuBarButton>
             <span class={styles.arrow}>▶</span>
-            <MenuBarButton href="#home" onClick={() => navigateTo('home')}>
-              Home
-            </MenuBarButton>
+            <HeaderBarButton page="home" />
             {currentPage !== 'home' && pages[currentPage] && (
               <>
                 <span class={styles.arrow}>▶</span>
-                <MenuBarButton
-                  href={`#${currentPage}`}
-                  onClick={() => navigateTo(currentPage)}
-                >
-                  {pages[currentPage].name}
-                </MenuBarButton>
+                <HeaderBarButton page={currentPage} />
               </>
             )}
           </div>
