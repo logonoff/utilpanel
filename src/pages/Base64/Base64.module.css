@@ -1,0 +1,24 @@
+.form {
+  display: grid;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--shale-v1-font-0);
+}
+
+.inputContainer,
+.outputContainer {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
+
+  & textarea {
+    font-family: var(--shale-v1-font-family-mono);
+    height: 24px;
+    resize: none;
+    width: 100%;
+  }
+}

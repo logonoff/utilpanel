@@ -44,4 +44,12 @@ export const pages: Record<string, Page> = {
         ),
     ),
   },
+  base64: {
+    name: 'Base64 Encoder/Decoder',
+    description: 'Encode or decode Base64 text',
+    component: lazy(
+      () =>
+        import('../pages/Base64/Base64.tsx' /* webpackChunkName: "base64" */),
+    ),
+  },
 };
