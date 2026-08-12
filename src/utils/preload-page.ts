@@ -7,10 +7,15 @@ export const preloadPage = (key: string) => {
   }
 };
 
+export const getOnPreInteractProps = (
+  cb: () => void,
+): Partial<React.HTMLAttributes<HTMLElement>> => ({
+  onMouseEnter: cb,
+  onTouchStart: cb,
+  onFocus: cb,
+});
+
 export const getPreloadPageProps = (
   page: string,
-): Partial<React.HTMLAttributes<HTMLElement>> => ({
-  onMouseEnter: () => preloadPage(page),
-  onTouchStart: () => preloadPage(page),
-  onFocus: () => preloadPage(page),
-});
+): Partial<React.HTMLAttributes<HTMLElement>> =>
+  getOnPreInteractProps(() => preloadPage(page));

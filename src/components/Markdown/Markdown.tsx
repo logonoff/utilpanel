@@ -1,13 +1,14 @@
 import { P } from '@shalecss/react';
 import { lazy, Suspense } from 'preact/compat';
 
-const MarkdownWithoutSuspense = lazy(() =>
+export const markdownLoader = () =>
   import('./MarkdownInternal' /* webpackChunkName: "MarkdownInternal" */).then(
     (module) => ({
       default: module.MarkdownInternal,
     }),
-  ),
-);
+  );
+
+const MarkdownWithoutSuspense = lazy(markdownLoader);
 
 export const Markdown: React.FC<{ content: string }> = ({ content }) => (
   <Suspense fallback={<P className="empty">Loading Markdown...</P>}>

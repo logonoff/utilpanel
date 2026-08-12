@@ -9,11 +9,12 @@ import {
   Select,
 } from '@shalecss/react';
 import { useCallback, useMemo, useState } from 'preact/hooks';
-import { Markdown } from '../../components/Markdown/Markdown';
+import { Markdown, markdownLoader } from '../../components/Markdown/Markdown';
 import {
   type CommandBarActions,
   useCommandBar,
 } from '../../contexts/CommandBarContext';
+import { getOnPreInteractProps } from '../../utils/preload-page';
 import { saveFile } from '../../utils/save-file';
 import { openTextInNewTab } from '../../utils/text-in-new-tab';
 import styles from './GitHubChangelog.module.css';
@@ -167,7 +168,11 @@ const GitHubChangelog: React.FC = () => {
             className={styles.urlbox}
             required
           />
-          <Button type="submit" variant="primary">
+          <Button
+            type="submit"
+            variant="primary"
+            {...getOnPreInteractProps(markdownLoader)}
+          >
             Fetch
           </Button>
           <div className={styles.releases}>
