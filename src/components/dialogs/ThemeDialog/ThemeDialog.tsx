@@ -1,6 +1,9 @@
 import { Button, FlexContainer, FlexForm, P, Select } from '@shalecss/react';
 import { useEffect, useState } from 'preact/hooks';
-import { SimpleDialog } from '../SimpleDialog/SimpleDialog';
+import {
+  type CommonDialogProps,
+  SimpleDialog,
+} from '../SimpleDialog/SimpleDialog';
 
 const useUserStorageTheme = () => {
   const [theme, setTheme] = useState<string | undefined>(undefined);
@@ -69,16 +72,16 @@ const useUserStorageTheme = () => {
   return [theme, setStorageTheme] as const;
 };
 
-export const ThemeDialog: React.FC = () => {
+export const ThemeDialog: React.FC<CommonDialogProps> = ({ id }) => {
   const [theme, setTheme] = useUserStorageTheme();
 
   return (
     <SimpleDialog
-      id="theme-dialog"
+      id={id}
       title="Theme"
       actions={
         <FlexContainer>
-          <Button commandfor="theme-dialog" command="close">
+          <Button commandfor={id} command="close">
             OK
           </Button>
           <Button variant="secondary" onClick={() => setTheme('system')}>

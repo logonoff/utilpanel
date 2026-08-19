@@ -1,14 +1,14 @@
 import { Link, P } from '@shalecss/react';
 import { Suspense } from 'preact/compat';
 import { useEffect } from 'preact/hooks';
+import { AboutDialog } from './components/dialogs/AboutDialog/AboutDialog.tsx';
+import { ThemeDialog } from './components/dialogs/ThemeDialog/ThemeDialog.tsx';
 import { Navigation } from './components/Navigation/Navigation.tsx';
 import { useNavigation } from './contexts/NavigationContext.tsx';
 import { Providers } from './contexts/Providers.tsx';
 import { pages } from './data/pages.ts';
 
 import './App.css';
-import { AboutDialog } from './components/dialogs/AboutDialog/AboutDialog.tsx';
-import { ThemeDialog } from './components/dialogs/ThemeDialog/ThemeDialog.tsx';
 
 const ORIGINAL_TITLE = document.title;
 
@@ -44,8 +44,8 @@ const App = () => (
         <RenderPage />
       </Suspense>
     </main>
-    <AboutDialog />
-    <ThemeDialog />
+    <AboutDialog id="about-dialog" />
+    <ThemeDialog id="theme-dialog" />
   </Providers>
 );
 
