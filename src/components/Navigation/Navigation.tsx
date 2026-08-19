@@ -43,7 +43,7 @@ const HeaderBar: React.FC = IS_IN_IFRAME
           <div class={styles.breadcrumbs}>
             <MenuBarButton
               onClick={() => navigateTo('home')}
-              className={styles.logo}
+              class={styles.logo}
               href="#home"
               tabIndex={-1} // duplicate link so no point having it tabbable
               {...getPreloadPageProps('home')}
@@ -70,7 +70,7 @@ export const Navigation: React.FC = () => {
   return (
     <Header>
       <HeaderBar />
-      <CommandBar className={styles.commands}>
+      <CommandBar class={styles.commands}>
         {IS_IN_IFRAME && (
           <Button Component="a" href="#home">
             Home

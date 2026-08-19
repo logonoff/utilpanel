@@ -25,7 +25,7 @@ const RenderPage = () => {
 
   if (!(currentPage && pages[currentPage])) {
     return (
-      <P className="empty">
+      <P class="empty">
         Page not found.&nbsp;<Link href="#">Return home</Link>
       </P>
     );
@@ -40,7 +40,7 @@ const App = () => (
   <Providers>
     <Navigation />
     <main class="main">
-      <Suspense fallback={<P className="empty">Loading...</P>}>
+      <Suspense fallback={<P class="empty">Loading...</P>}>
         <RenderPage />
       </Suspense>
     </main>

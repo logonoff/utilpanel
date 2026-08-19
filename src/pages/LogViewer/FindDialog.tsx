@@ -55,7 +55,7 @@ export const FindDialog: React.FC<FindDialogProps> = ({ getSearchAddon }) => {
             required
             label="Find what:"
           />
-          <div className={styles.findOptions}>
+          <div class={styles.findOptions}>
             <form>
               <Input
                 type="checkbox"

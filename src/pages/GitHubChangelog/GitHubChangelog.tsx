@@ -158,14 +158,14 @@ const GitHubChangelog: React.FC = () => {
   useCommandBar('ghchangelog', actions);
 
   return (
-    <FlexContainer className={styles.wrapper}>
-      <FlexForm className={styles.form} onSubmit={onSubmit}>
+    <FlexContainer class={styles.wrapper}>
+      <FlexForm class={styles.form} onSubmit={onSubmit}>
         <div class={styles.maininput}>
           <Input
             type="url"
             name="url"
             placeholder="Enter a GitHub URL..."
-            className={styles.urlbox}
+            class={styles.urlbox}
             required
           />
           <Button
@@ -175,7 +175,7 @@ const GitHubChangelog: React.FC = () => {
           >
             Fetch
           </Button>
-          <div className={styles.releases}>
+          <div class={styles.releases}>
             <Select name="fetchLast" defaultValue="100">
               <option value="5">Last 5 releases</option>
               <option value="10">Last 10 releases</option>
@@ -184,7 +184,7 @@ const GitHubChangelog: React.FC = () => {
             </Select>
           </div>
         </div>
-        <details className={styles.advanced}>
+        <details class={styles.advanced}>
           <summary>More options</summary>
           <Input
             type="password"
@@ -200,7 +200,7 @@ const GitHubChangelog: React.FC = () => {
           </NoteText>
         </Note>
       )}
-      {markdown === false && <P className="empty">Loading changelog...</P>}
+      {markdown === false && <P class="empty">Loading changelog...</P>}
       {markdown && (
         <div class={styles.markdown}>
           <Markdown content={markdown} />

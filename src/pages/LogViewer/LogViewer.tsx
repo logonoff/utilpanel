@@ -106,26 +106,26 @@ const LogViewer: React.FC = () => {
   }, [handleResize]);
 
   return (
-    <FlexContainer className={styles.container}>
+    <FlexContainer class={styles.container}>
       {error && (
         <Note variant="alert">
           <NoteText>{error}</NoteText>
         </Note>
       )}
       {!log && (
-        <P className="empty">
+        <P class="empty">
           <Link
             Component="button"
             command="show-modal"
             popovertarget="popover-file-logviewer"
-            className={styles.link}
+            class={styles.link}
           >
             No log data available. Open a log file in the File menu.
           </Link>
         </P>
       )}
       <div
-        className={`${styles.term} ${log ? '' : styles.hidden}`}
+        class={`${styles.term} ${log ? '' : styles.hidden}`}
         id="log-viewer-terminal-wrapper"
       >
         <Xterm

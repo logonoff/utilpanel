@@ -25,11 +25,11 @@ const Home: React.FC = () => {
         Random utilities
         <hr class={styles.divider} />
       </H4>
-      {items.length === 0 && <P className="empty">This app is empty</P>}
-      <FlexContainer className={styles.items}>
+      {items.length === 0 && <P class="empty">This app is empty</P>}
+      <FlexContainer class={styles.items}>
         {items.map(([key, page]) => (
           <Button
-            className={styles.item}
+            class={styles.item}
             variant="secondary"
             key={key}
             href={`#${key}`}

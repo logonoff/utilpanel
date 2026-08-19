@@ -151,9 +151,9 @@ const DiffViewer: React.FC = () => {
 
   return (
     <FlexContainer>
-      <FlexForm onSubmit={handleSubmit} className={styles.form}>
+      <FlexForm onSubmit={handleSubmit} class={styles.form}>
         <Input
-          className={styles.input}
+          class={styles.input}
           type="url"
           name="url"
           placeholder="Enter link to diff or a GitHub PR link"
@@ -161,7 +161,7 @@ const DiffViewer: React.FC = () => {
         />
         <Button type="submit">Fetch</Button>
       </FlexForm>
-      {text === false && <P className="empty">Loading...</P>}
+      {text === false && <P class="empty">Loading...</P>}
       {error && (
         <Note variant="alert">
           <strong>{error.title}</strong>

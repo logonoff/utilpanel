@@ -88,15 +88,15 @@ const LiveDiff: React.FC = () => {
 
   return (
     <FlexContainer>
-      <div className={styles.input}>
-        <div className={styles.before}>
+      <div class={styles.input}>
+        <div class={styles.before}>
           <Textarea
             placeholder="Original text"
             value={before}
             onChange={(e) => setBefore(e.currentTarget.value)}
           />
         </div>
-        <div className={styles.after}>
+        <div class={styles.after}>
           <Textarea
             placeholder="Modified text"
             value={after}
@@ -104,10 +104,10 @@ const LiveDiff: React.FC = () => {
           />
         </div>
       </div>
-      <div className={styles.diff}>
+      <div class={styles.diff}>
         {typeof diff === 'string' && <Diff text={diff} />}
         {typeof diff === 'undefined' && (
-          <P className="empty">Diff will appear here</P>
+          <P class="empty">Diff will appear here</P>
         )}
       </div>
     </FlexContainer>

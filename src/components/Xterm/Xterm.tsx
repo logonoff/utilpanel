@@ -12,7 +12,7 @@ export const xtermLoader = () =>
 const XtermWithoutSuspense = lazy(xtermLoader);
 
 export const Xterm = forwardRef<TerminalRef, TerminalProps>((props, ref) => (
-  <Suspense fallback={<P className="empty">Loading Xterm...</P>}>
+  <Suspense fallback={<P class="empty">Loading Xterm...</P>}>
     <XtermWithoutSuspense {...props} ref={ref} />
   </Suspense>
 ));

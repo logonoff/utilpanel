@@ -11,7 +11,7 @@ export const markdownLoader = () =>
 const MarkdownWithoutSuspense = lazy(markdownLoader);
 
 export const Markdown: React.FC<{ content: string }> = ({ content }) => (
-  <Suspense fallback={<P className="empty">Loading Markdown...</P>}>
+  <Suspense fallback={<P class="empty">Loading Markdown...</P>}>
     <MarkdownWithoutSuspense content={content} />
   </Suspense>
 );

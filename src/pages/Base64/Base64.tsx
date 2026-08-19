@@ -166,11 +166,7 @@ const Base64: React.FC = () => {
   useCommandBar('base64', actions);
 
   return (
-    <FlexForm
-      onKeyDown={syncHeights}
-      className={styles.container}
-      id="base64-form"
-    >
+    <FlexForm onKeyDown={syncHeights} class={styles.container} id="base64-form">
       <div class={styles.inputContainer}>
         <Textarea
           name="text"
