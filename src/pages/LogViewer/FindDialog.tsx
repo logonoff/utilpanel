@@ -1,7 +1,7 @@
 import { Button, CommandBar, Input } from '@shalecss/react';
 import type { ISearchOptions } from '@xterm/addon-search';
 import { useCallback } from 'preact/hooks';
-import { SimpleDialog } from '../../components/SimpleDialog/SimpleDialog.tsx';
+import { SimpleDialog } from '../../components/dialogs/SimpleDialog/SimpleDialog.tsx';
 import type { TerminalRef } from '../../components/Xterm/XtermInternal.tsx';
 import styles from './LogViewer.module.css';
 
@@ -46,7 +46,7 @@ export const FindDialog: React.FC<FindDialogProps> = ({ getSearchAddon }) => {
         }}
         method="dialog"
       >
-        <div className={styles.form}>
+        <div class="dialog-form">
           <Input
             type="text"
             name="searchTerm"

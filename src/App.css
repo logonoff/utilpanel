@@ -19,3 +19,14 @@ html {
   font-size: var(--shale-v1-font--1);
   justify-content: center;
 }
+
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  padding: var(--shale-v1-font-0);
+  gap: var(--shale-v1-font--1);
+
+  & * {
+    flex-grow: 1;
+  }
+}

@@ -44,7 +44,7 @@ let rainbowIntervalId: number | null = null;
 const defaultActions: CommandBarActions = {
   View: [
     {
-      name: 'Change theme',
+      name: 'Change theme...',
       command: 'show-modal',
       commandfor: 'theme-dialog',
       'aria-haspopup': 'dialog',

@@ -7,8 +7,8 @@ import { Providers } from './contexts/Providers.tsx';
 import { pages } from './data/pages.ts';
 
 import './App.css';
-import { AboutDialog } from './components/AboutDialog/AboutDialog.tsx';
-import { ThemeDialog } from './components/ThemeDialog/ThemeDialog.tsx';
+import { AboutDialog } from './components/dialogs/AboutDialog/AboutDialog.tsx';
+import { ThemeDialog } from './components/dialogs/ThemeDialog/ThemeDialog.tsx';
 
 const ORIGINAL_TITLE = document.title;
 

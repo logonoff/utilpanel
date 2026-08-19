@@ -118,7 +118,7 @@ const GitHubChangelog: React.FC = () => {
     () => ({
       File: [
         {
-          name: 'Download',
+          name: 'Save as...',
           callback: () => {
             if (markdown) {
               saveFile(markdown, 'CHANGELOG.md');

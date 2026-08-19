@@ -8,8 +8,11 @@ import {
   HeaderTitle,
 } from '@shalecss/react';
 
-interface SimpleDialogProps {
+export interface CommonDialogProps {
   id: string;
+}
+
+interface SimpleDialogProps extends CommonDialogProps {
   title: string;
   children?: React.ReactNode;
   actions?: React.ReactNode;

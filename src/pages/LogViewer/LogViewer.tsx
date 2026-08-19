@@ -6,6 +6,8 @@ import {
   useRef,
   useState,
 } from 'preact/hooks';
+import { PasteTextDialog } from './../../components/dialogs/PasteTextDialog/PasteTextDialog.tsx';
+import { UrlFetchDialog } from './../../components/dialogs/UrlFetchDialog/UrlFetchDialog.tsx';
 import { Xterm } from '../../components/Xterm/Xterm.tsx';
 import type { TerminalRef } from '../../components/Xterm/XtermInternal.tsx';
 import {
@@ -16,8 +18,6 @@ import { debounce } from '../../utils/debounce.ts';
 import { openFile } from '../../utils/open-file.ts';
 import { FindDialog } from './FindDialog.tsx';
 import styles from './LogViewer.module.css';
-import { PasteLogDialog } from './PasteLogDialog.tsx';
-import { UploadLogDialog } from './UploadLogDialog.tsx';
 
 interface DialogProps {
   cb: (result: { error: string | null; log: string | null }) => void;
@@ -37,17 +37,17 @@ const LogViewer: React.FC = () => {
     () => ({
       File: [
         {
-          name: 'Upload log from file',
+          name: 'Open log file...',
           onClick: uploadLog,
         },
         {
-          name: 'Upload log from URL',
+          name: 'Upload log from URL...',
           command: 'show-modal',
           commandfor: 'upload-log-dialog',
           ariaHaspopup: 'dialog',
         },
         {
-          name: 'Paste log',
+          name: 'Paste log...',
           command: 'show-modal',
           commandfor: 'paste-log-dialog',
           ariaHaspopup: 'dialog',
@@ -55,7 +55,7 @@ const LogViewer: React.FC = () => {
       ],
       Edit: [
         {
-          name: 'Find',
+          name: 'Find...',
           command: 'show-modal',
           commandfor: 'find-dialog',
           ariaHaspopup: 'dialog',
@@ -137,8 +137,41 @@ const LogViewer: React.FC = () => {
           }}
         />
       </div>
-      <UploadLogDialog cb={dialogCb} />
-      <PasteLogDialog cb={dialogCb} />
+      <UrlFetchDialog
+        id="upload-log-dialog"
+        cb={(url) => {
+          if (url) {
+            fetch(url)
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error(
+                    `Failed to fetch log from URL: ${response.status} ${response.statusText}`,
+                  );
+                }
+                return response.text();
+              })
+              .then((text) => dialogCb({ log: text, error: null }))
+              .catch((err) => {
+                dialogCb({ log: null, error: err.message });
+              });
+          }
+        }}
+        strings={{
+          dialogTitle: 'Upload Log from URL',
+          urlInputLabel: 'Log URL',
+          urlInputPlaceholder: 'Enter the URL of the log file',
+          loadButtonText: 'Fetch Log',
+        }}
+      />
+      <PasteTextDialog
+        cb={(result) => dialogCb({ log: result, error: '' })}
+        strings={{
+          dialogTitle: 'Paste Log',
+          textareaPlaceholder: 'Paste your log here...',
+          loadButtonText: 'Load Log',
+        }}
+        id="paste-log-dialog"
+      />
       <FindDialog getSearchAddon={getSearchAddon} />
     </FlexContainer>
   );

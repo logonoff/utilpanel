@@ -9,6 +9,8 @@ import {
 } from '@shalecss/react';
 import { useCallback, useMemo, useState } from 'preact/hooks';
 import { Diff } from '../../components/Diff/Diff';
+import { PasteTextDialog } from '../../components/dialogs/PasteTextDialog/PasteTextDialog';
+import { UrlFetchDialog } from '../../components/dialogs/UrlFetchDialog/UrlFetchDialog';
 import {
   type CommandBarActions,
   useCommandBar,
@@ -43,16 +45,12 @@ const DiffViewer: React.FC = () => {
     null,
   );
 
-  const handleSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>(
-    (event) => {
-      event.preventDefault();
-      const form = event.currentTarget;
-      const urlInput = form.elements.namedItem('url') as HTMLInputElement;
-
+  const loadDiffFromUrl = useCallback(
+    (urlInput: string) => {
       let url: URL | null = null;
 
       try {
-        url = new URL(translateGitHubPrLinkToApiUrl(urlInput.value));
+        url = new URL(translateGitHubPrLinkToApiUrl(urlInput));
       } catch (e) {
         alert(e instanceof Error ? e.message : 'Invalid URL');
         return;
@@ -83,18 +81,40 @@ const DiffViewer: React.FC = () => {
           setText(null);
         });
     },
-    [],
+    [setText, setError],
+  );
+
+  const handleSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>(
+    (event) => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const urlInput = form.elements.namedItem('url') as HTMLInputElement;
+      loadDiffFromUrl(urlInput.value);
+    },
+    [loadDiffFromUrl],
   );
 
   const actions = useMemo<CommandBarActions>(
     () => ({
       File: [
         {
-          name: 'Open',
+          name: 'Open...',
           callback: () => openFile(setText, '.txt,.diff,.patch'),
         },
         {
-          name: 'Download',
+          name: 'Upload from URL...',
+          command: 'show-modal',
+          commandfor: 'upload-diff-dialog',
+          ariaHaspopup: 'dialog',
+        },
+        {
+          name: 'Paste diff...',
+          command: 'show-modal',
+          commandfor: 'paste-diff-dialog',
+          ariaHaspopup: 'dialog',
+        },
+        {
+          name: 'Save as...',
           callback: () => {
             if (text) {
               saveFile(text, 'diff.diff');
@@ -115,7 +135,7 @@ const DiffViewer: React.FC = () => {
       ],
       Edit: [
         {
-          name: 'Clear diff',
+          name: 'Clear',
           callback: () => {
             setText(null);
             setError(null);
@@ -149,6 +169,30 @@ const DiffViewer: React.FC = () => {
         </Note>
       )}
       {typeof text === 'string' && <Diff text={text} />}
+      <UrlFetchDialog
+        id="upload-diff-dialog"
+        cb={loadDiffFromUrl}
+        strings={{
+          dialogTitle: 'Upload Diff from URL',
+          urlInputLabel: 'Diff URL',
+          urlInputPlaceholder: 'Enter link to diff or a GitHub PR link',
+          loadButtonText: 'Fetch diff',
+        }}
+      />
+      <PasteTextDialog
+        cb={(result) => {
+          if (result !== null) {
+            setText(result);
+            setError(null);
+          }
+        }}
+        strings={{
+          dialogTitle: 'Paste Diff',
+          textareaPlaceholder: 'Paste your diff here...',
+          loadButtonText: 'Load Diff',
+        }}
+        id="paste-diff-dialog"
+      />
     </FlexContainer>
   );
 };

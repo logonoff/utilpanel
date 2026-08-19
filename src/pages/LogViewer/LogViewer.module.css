@@ -7,17 +7,6 @@
   width: 100%;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  padding: var(--shale-v1-font-0);
-  gap: var(--shale-v1-font--1);
-
-  & * {
-    flex-grow: 1;
-  }
-}
-
 .term {
   height: calc(100vh - 8rem);
 }

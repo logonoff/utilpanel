@@ -43,15 +43,15 @@ const LiveDiff: React.FC = () => {
     () => ({
       File: [
         {
-          name: 'Open (original)',
+          name: 'Open original...',
           callback: () => openFile(setBefore),
         },
         {
-          name: 'Open (modified)',
+          name: 'Open modified...',
           callback: () => openFile(setAfter),
         },
         {
-          name: 'Save',
+          name: 'Save as...',
           callback: () => {
             if (diff) {
               saveFile(diff, 'diff.txt');
