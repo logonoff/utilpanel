@@ -1,0 +1,48 @@
+.hidden {
+  visibility: hidden;
+}
+
+.log {
+  height: 100%;
+  width: 100%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: var(--shale-v1-font-0);
+  gap: var(--shale-v1-font--1);
+
+  & * {
+    flex-grow: 1;
+  }
+}
+
+.term {
+  height: calc(100vh - 8rem);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+#log-viewer-terminal-wrapper {
+  flex-grow: 1;
+}
+
+.link {
+  background: transparent;
+  border: 0;
+  display: inline;
+  font-size: inherit;
+  line-height: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+.findOptions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

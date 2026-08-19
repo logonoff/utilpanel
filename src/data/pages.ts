@@ -57,4 +57,14 @@ export const pages: Record<string, Page> = {
         import('../pages/Base64/Base64.tsx' /* webpackChunkName: "base64" */),
     ),
   },
+  logviewer: {
+    name: 'Log Viewer',
+    description: 'View and colourize a log file',
+    component: lazyPreload(
+      () =>
+        import(
+          '../pages/LogViewer/LogViewer.tsx' /* webpackChunkName: "logviewer" */
+        ),
+    ),
+  },
 };
