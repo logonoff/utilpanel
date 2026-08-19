@@ -7,7 +7,7 @@
     "build": "COMMIT_HASH=$(git rev-parse HEAD) rsbuild build",
     "check": "biome check --write",
     "dev": "COMMIT_HASH=$(git rev-parse HEAD) rsbuild --open",
-    "format": "biome format --write",
+    "pretty": "biome format --write",
     "preview": "rsbuild preview"
   },
   "dependencies": {

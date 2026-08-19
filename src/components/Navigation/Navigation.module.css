@@ -27,26 +27,8 @@
   }
 }
 
-.submenu {
-  display: inline-block;
-  position: relative;
-
-  & button {
-    anchor-name: var(--anchor-name);
-    text-align: left;
-    width: 100%;
-  }
-
-  & menu {
-    inset: unset;
-    position-anchor: var(--anchor-name);
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    top: anchor(bottom);
-    left: anchor(left);
-    position: fixed;
-  }
+.submenu button {
+  text-align: left;
 }
 
 .commands {

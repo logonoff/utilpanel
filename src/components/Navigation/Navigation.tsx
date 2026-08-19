@@ -5,6 +5,8 @@ import {
   Header,
   MenuBarButton,
   Nav,
+  PopoverContent,
+  PopoverToggle,
 } from '@shalecss/react';
 import type React from 'preact/compat';
 import { useCommandBarContext } from '../../contexts/CommandBarContext.tsx';
@@ -90,22 +92,13 @@ export const Navigation: React.FC = () => {
           }
 
           const id = `${group.replace(/\s+/g, '-').toLowerCase()}-${currentPage.replace(/\s+/g, '-').toLowerCase()}`;
-          const popoverId = `popover-${id}`;
-          const buttonId = `button-${id}`;
           return (
-            <div
-              key={id}
-              class={styles.submenu}
-              style={{ '--anchor-name': `--anchor-${id}` }}
-            >
-              <Button
-                id={buttonId}
-                popovertarget={popoverId}
-                variant="secondary"
-              >
+            <div key={id} class={styles.submenu}>
+              {/* @ts-expect-error - lol i typed it wrong */}
+              <PopoverToggle name={id} variant="secondary">
                 {group}
-              </Button>
-              <Card Component="menu" popover id={popoverId}>
+              </PopoverToggle>
+              <PopoverContent name={id}>
                 {actions[group].map((action) => (
                   <li key={action.name}>
                     <Button
@@ -117,7 +110,7 @@ export const Navigation: React.FC = () => {
                     </Button>
                   </li>
                 ))}
-              </Card>
+              </PopoverContent>
             </div>
           );
         })}
