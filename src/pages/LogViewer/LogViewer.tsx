@@ -1,4 +1,11 @@
-import { FlexContainer, Link, Note, NoteText, P } from '@shalecss/react';
+import {
+  Button,
+  FlexContainer,
+  Link,
+  Note,
+  NoteText,
+  P,
+} from '@shalecss/react';
 import {
   useCallback,
   useEffect,
@@ -113,16 +120,12 @@ const LogViewer: React.FC = () => {
         </Note>
       )}
       {!log && (
-        <P class="empty">
-          <Link
-            Component="button"
-            command="show-modal"
-            popovertarget="popover-file-logviewer"
-            class={styles.link}
-          >
-            No log data available. Open a log file in the File menu.
-          </Link>
-        </P>
+        <FlexContainer variant="center">
+          <P class="empty">No log data available.</P>
+          <Button command="show-modal" popovertarget="file-logviewer">
+            Open log
+          </Button>
+        </FlexContainer>
       )}
       <div
         class={`${styles.term} ${log ? '' : styles.hidden}`}
