@@ -99,7 +99,7 @@ const DiffViewer: React.FC = () => {
       File: [
         {
           name: 'Open...',
-          callback: () => openFile(setText, '.txt,.diff,.patch'),
+          onClick: () => openFile(setText, '.txt,.diff,.patch'),
         },
         {
           name: 'Upload from URL...',
@@ -115,7 +115,7 @@ const DiffViewer: React.FC = () => {
         },
         {
           name: 'Save as...',
-          callback: () => {
+          onClick: () => {
             if (text) {
               saveFile(text, 'diff.diff');
             }
@@ -125,7 +125,7 @@ const DiffViewer: React.FC = () => {
 
         {
           name: 'Open in new tab',
-          callback: () => {
+          onClick: () => {
             if (text) {
               openTextInNewTab(text);
             }
@@ -136,7 +136,7 @@ const DiffViewer: React.FC = () => {
       Edit: [
         {
           name: 'Clear',
-          callback: () => {
+          onClick: () => {
             setText(null);
             setError(null);
           },

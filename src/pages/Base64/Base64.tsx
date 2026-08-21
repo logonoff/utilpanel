@@ -87,7 +87,7 @@ const Base64: React.FC = () => {
       File: [
         {
           name: 'Open text...',
-          callback: () => {
+          onClick: () => {
             openFile((text) => {
               const box = document.querySelector<HTMLTextAreaElement>(
                 '#base64-form textarea[name="text"]',
@@ -106,7 +106,7 @@ const Base64: React.FC = () => {
         },
         {
           name: 'Open base64...',
-          callback: () => {
+          onClick: () => {
             openFile((text) => {
               const box = document.querySelector<HTMLTextAreaElement>(
                 '#base64-form textarea[name="base64"]',
@@ -125,7 +125,7 @@ const Base64: React.FC = () => {
         },
         {
           name: 'Save text as...',
-          callback: () => {
+          onClick: () => {
             saveFile(
               document.querySelector<HTMLTextAreaElement>(
                 '#base64-form textarea[name="text"]',
@@ -136,7 +136,7 @@ const Base64: React.FC = () => {
         },
         {
           name: 'Save base64 as...',
-          callback: () => {
+          onClick: () => {
             saveFile(
               document.querySelector<HTMLTextAreaElement>(
                 '#base64-form textarea[name="base64"]',
@@ -149,7 +149,7 @@ const Base64: React.FC = () => {
       Edit: [
         {
           name: 'Clear',
-          callback: () => {
+          onClick: () => {
             document.querySelector<HTMLFormElement>('#base64-form')?.reset();
             document
               .querySelectorAll<HTMLTextAreaElement>('#base64-form textarea')

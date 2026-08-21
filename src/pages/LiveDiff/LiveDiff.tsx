@@ -1,6 +1,12 @@
 import { FlexContainer, P, Textarea } from '@shalecss/react';
 import { diffLines } from 'diff';
-import { useCallback, useEffect, useMemo, useState } from 'preact/hooks';
+import {
+  type StateUpdater,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'preact/hooks';
 import { Diff } from '../../components/Diff/Diff';
 import {
   type CommandBarActions,
@@ -10,6 +16,9 @@ import { openFile } from '../../utils/open-file';
 import { saveFile } from '../../utils/save-file';
 import { openTextInNewTab } from '../../utils/text-in-new-tab';
 import styles from './LiveDiff.module.css';
+
+const sortAlpha: StateUpdater<string> = (text: string) =>
+  text.split('\n').sort().join('\n');
 
 const LiveDiff: React.FC = () => {
   const [before, setBefore] = useState<string>('');
@@ -44,15 +53,15 @@ const LiveDiff: React.FC = () => {
       File: [
         {
           name: 'Open original...',
-          callback: () => openFile(setBefore),
+          onClick: () => openFile(setBefore),
         },
         {
           name: 'Open modified...',
-          callback: () => openFile(setAfter),
+          onClick: () => openFile(setAfter),
         },
         {
           name: 'Save as...',
-          callback: () => {
+          onClick: () => {
             if (diff) {
               saveFile(diff, 'diff.txt');
             }
@@ -61,7 +70,7 @@ const LiveDiff: React.FC = () => {
         },
         {
           name: 'Open in new tab',
-          callback: () => {
+          onClick: () => {
             if (diff) {
               openTextInNewTab(diff);
             }
@@ -72,10 +81,18 @@ const LiveDiff: React.FC = () => {
       Edit: [
         {
           name: 'Clear',
-          callback: () => {
+          onClick: () => {
             setBefore('');
             setAfter('');
             setDiff(undefined);
+          },
+          disabled: !diff,
+        },
+        {
+          name: 'Reorder lines A-Z',
+          onClick: () => {
+            setBefore(sortAlpha);
+            setAfter(sortAlpha);
           },
           disabled: !diff,
         },

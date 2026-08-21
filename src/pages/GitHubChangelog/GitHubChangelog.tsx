@@ -119,7 +119,7 @@ const GitHubChangelog: React.FC = () => {
       File: [
         {
           name: 'Save as...',
-          callback: () => {
+          onClick: () => {
             if (markdown) {
               saveFile(markdown, 'CHANGELOG.md');
             }
@@ -128,7 +128,7 @@ const GitHubChangelog: React.FC = () => {
         },
         {
           name: 'Open in new tab',
-          callback: () => {
+          onClick: () => {
             if (markdown) {
               openTextInNewTab(
                 markdown,
@@ -142,7 +142,7 @@ const GitHubChangelog: React.FC = () => {
       Edit: [
         {
           name: 'Clear',
-          callback: () => {
+          onClick: () => {
             setMarkdown(undefined);
             setError(null);
             document.querySelectorAll('form input').forEach((input) => {

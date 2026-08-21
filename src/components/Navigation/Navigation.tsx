@@ -1,6 +1,5 @@
 import {
   Button,
-  Card,
   CommandBar,
   Header,
   MenuBarButton,
@@ -13,6 +12,7 @@ import { useCommandBarContext } from '../../contexts/CommandBarContext.tsx';
 import { useNavigation } from '../../contexts/NavigationContext.tsx';
 import { pages } from '../../data/pages.ts';
 import { getPreloadPageProps } from '../../utils/preload-page.ts';
+import { ActionButton } from '../ActionButton/ActionButton.tsx';
 
 import styles from './Navigation.module.css';
 
@@ -79,16 +79,7 @@ export const Navigation: React.FC = () => {
         {Object.keys(actions).map((group) => {
           if (actions[group].length === 1 && actions[group][0].name === group) {
             const action = actions[group][0];
-            return (
-              <Button
-                key={group}
-                onClick={action.callback}
-                {...action}
-                variant="secondary"
-              >
-                {action.name}
-              </Button>
-            );
+            return <ActionButton key={action.name} {...action} />;
           }
 
           const id = `${group.replace(/\s+/g, '-').toLowerCase()}-${currentPage.replace(/\s+/g, '-').toLowerCase()}`;
@@ -101,13 +92,7 @@ export const Navigation: React.FC = () => {
               <PopoverContent name={id}>
                 {actions[group].map((action) => (
                   <li key={action.name}>
-                    <Button
-                      variant="secondary"
-                      onClick={action.callback}
-                      {...action}
-                    >
-                      {action.name}
-                    </Button>
+                    <ActionButton {...action} />
                   </li>
                 ))}
               </PopoverContent>

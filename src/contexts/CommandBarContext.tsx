@@ -1,3 +1,4 @@
+import type { ButtonProps } from '@shalecss/react';
 import type { ButtonHTMLAttributes } from 'preact';
 import { createContext } from 'preact';
 import {
@@ -9,9 +10,10 @@ import {
 } from 'preact/hooks';
 import { useNavigation } from './NavigationContext';
 
-interface CommandBarAction extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface CommandBarAction
+  extends ButtonHTMLAttributes<HTMLButtonElement>,
+    ButtonProps {
   name: string;
-  callback?: () => void;
 }
 
 export interface CommandBarActions {
@@ -51,7 +53,7 @@ const defaultActions: CommandBarActions = {
     },
     {
       name: 'Rainbow mode',
-      callback: () => {
+      onClick: () => {
         if (rainbowIntervalId) {
           clearInterval(rainbowIntervalId);
           rainbowIntervalId = null;

@@ -1,11 +1,4 @@
-import {
-  Button,
-  FlexContainer,
-  Link,
-  Note,
-  NoteText,
-  P,
-} from '@shalecss/react';
+import { FlexContainer, Note, NoteText, P } from '@shalecss/react';
 import {
   useCallback,
   useEffect,
@@ -13,6 +6,7 @@ import {
   useRef,
   useState,
 } from 'preact/hooks';
+import { ActionButton } from '../../components/ActionButton/ActionButton.tsx';
 import { PasteTextDialog } from './../../components/dialogs/PasteTextDialog/PasteTextDialog.tsx';
 import { UrlFetchDialog } from './../../components/dialogs/UrlFetchDialog/UrlFetchDialog.tsx';
 import { Xterm } from '../../components/Xterm/Xterm.tsx';
@@ -24,6 +18,7 @@ import {
 import { debounce } from '../../utils/debounce.ts';
 import { openFile } from '../../utils/open-file.ts';
 import { FindDialog } from './FindDialog.tsx';
+
 import styles from './LogViewer.module.css';
 
 interface DialogProps {
@@ -122,9 +117,9 @@ const LogViewer: React.FC = () => {
       {!log && (
         <FlexContainer variant="center">
           <P class="empty">No log data available.</P>
-          <Button command="show-modal" popovertarget="file-logviewer">
-            Open log
-          </Button>
+          {actions.File.map((action) => (
+            <ActionButton key={action.name} {...action} variant="primary" />
+          ))}
         </FlexContainer>
       )}
       <div
