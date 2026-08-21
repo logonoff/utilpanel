@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "COMMIT_HASH=$(git rev-parse HEAD) rsbuild build",
-    "check": "biome check --write",
+    "lint": "biome check --write",
     "dev": "COMMIT_HASH=$(git rev-parse HEAD) rsbuild --open",
     "pretty": "biome format --write",
     "preview": "rsbuild preview"

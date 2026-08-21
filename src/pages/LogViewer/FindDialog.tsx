@@ -12,10 +12,9 @@ type FindDialogProps = {
 export const FindDialog: React.FC<FindDialogProps> = ({ getSearchAddon }) => {
   const handleSearch = useCallback(() => {
     const caseSensitive =
-      document.querySelector<HTMLInputElement>('#caseSensitive')?.checked ||
-      false;
+      document.querySelector<HTMLInputElement>('#caseSensitive')?.checked;
     const wholeWord =
-      document.querySelector<HTMLInputElement>('#wholeWord')?.checked || false;
+      document.querySelector<HTMLInputElement>('#wholeWord')?.checked;
     const searchTerm =
       document.querySelector<HTMLInputElement>('#searchTerm')?.value || '';
     const direction = document.querySelector<HTMLInputElement>('#directionUp')
@@ -36,23 +35,24 @@ export const FindDialog: React.FC<FindDialogProps> = ({ getSearchAddon }) => {
     }
   }, [getSearchAddon]);
 
+  const onSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>(
+    (e) => {
+      e.preventDefault();
+      handleSearch();
+    },
+    [handleSearch],
+  );
+
   return (
     <SimpleDialog id="find-dialog" title="Find">
-      <form
-        id="find-form"
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSearch();
-        }}
-        method="dialog"
-      >
+      <form id="find-form" onSubmit={onSubmit} method="dialog">
         <div class="dialog-form">
           <Input
             type="text"
             name="searchTerm"
             id="searchTerm"
-            autofocus
-            required
+            autofocus={true}
+            required={true}
             label="Find what:"
           />
           <div class={styles.findOptions}>
@@ -71,7 +71,7 @@ export const FindDialog: React.FC<FindDialogProps> = ({ getSearchAddon }) => {
               />
             </form>
             <div>
-              <label htmlFor="direction">Direction</label>
+              <label for="direction">Direction</label>
               <Input
                 type="radio"
                 name="direction"
@@ -83,12 +83,12 @@ export const FindDialog: React.FC<FindDialogProps> = ({ getSearchAddon }) => {
                 name="direction"
                 id="directionDown"
                 label="Down"
-                defaultChecked
+                defaultChecked={true}
               />
             </div>
           </div>
         </div>
-        <CommandBar variant="space-between" gutter>
+        <CommandBar variant="space-between" gutter={true}>
           <Button type="submit">Find next</Button>
           <Button
             type="button"

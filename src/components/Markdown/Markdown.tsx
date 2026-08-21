@@ -2,11 +2,11 @@ import { P } from '@shalecss/react';
 import { lazy, Suspense } from 'preact/compat';
 
 export const markdownLoader = () =>
-  import('./MarkdownInternal' /* webpackChunkName: "MarkdownInternal" */).then(
-    (module) => ({
-      default: module.MarkdownInternal,
-    }),
-  );
+  import(
+    './MarkdownInternal.tsx' /* webpackChunkName: "MarkdownInternal" */
+  ).then((module) => ({
+    default: module.MarkdownInternal,
+  }));
 
 const MarkdownWithoutSuspense = lazy(markdownLoader);
 

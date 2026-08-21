@@ -1,10 +1,10 @@
-import DOMPurify from 'dompurify';
+import DomPurify from 'dompurify';
 import { marked } from 'marked';
 import { useMemo } from 'preact/hooks';
 
 import styles from './MarkdownInternal.module.css';
 
-DOMPurify.addHook('afterSanitizeAttributes', (node) => {
+DomPurify.addHook('afterSanitizeAttributes', (node) => {
   switch (node.tagName) {
     case 'A':
       node.setAttribute('target', '_blank');
@@ -47,7 +47,7 @@ const parseMarkdown = (markdown: string): string => {
     gfm: true,
     async: false,
   }) as string;
-  return DOMPurify.sanitize(html);
+  return DomPurify.sanitize(html);
 };
 
 interface MarkdownInternalProps {
@@ -55,13 +55,13 @@ interface MarkdownInternalProps {
 }
 
 export const MarkdownInternal = ({ content }: MarkdownInternalProps) => {
-  const sanitizedHTML = useMemo(() => parseMarkdown(content), [content]);
+  const sanitizedHtml = useMemo(() => parseMarkdown(content), [content]);
 
   return (
     <article
       class={styles.markdown}
       // biome-ignore lint/security/noDangerouslySetInnerHtml: Cause dompurify is used
-      dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
+      dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
     />
   );
 };

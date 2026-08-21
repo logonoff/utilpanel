@@ -68,7 +68,7 @@ const LogViewer: React.FC = () => {
             setLog(null);
             setError(null);
           },
-          disabled: !log && !error,
+          disabled: !(log || error),
         },
       ],
     }),
@@ -118,9 +118,39 @@ const LogViewer: React.FC = () => {
     };
   }, [handleResize]);
 
+  const uploadLogDialogCb = useCallback(
+    (url: string) => {
+      if (url) {
+        fetch(url)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(
+                `Failed to fetch log from URL: ${response.status} ${response.statusText}`,
+              );
+            }
+            return response.text();
+          })
+          .then((text) => dialogCb({ log: text, error: null }))
+          .catch((err) => {
+            dialogCb({ log: null, error: err.message });
+          });
+      }
+    },
+    [dialogCb],
+  );
+
+  const pasteLogDialogCb = useCallback(
+    (result: string | null) => {
+      if (result !== null) {
+        dialogCb({ log: result, error: null });
+      }
+    },
+    [dialogCb],
+  );
+
   return (
     <FlexContainer class={styles.container}>
-      {error && (
+      {!!error && (
         <Note variant="alert">
           <NoteText>{error}</NoteText>
         </Note>
@@ -142,29 +172,13 @@ const LogViewer: React.FC = () => {
           options={{
             disableStdin: true,
             convertEol: true,
-            scrollback: 100000000,
+            scrollback: 100_000_000,
           }}
         />
       </div>
       <UrlFetchDialog
         id="upload-log-dialog"
-        cb={(url) => {
-          if (url) {
-            fetch(url)
-              .then((response) => {
-                if (!response.ok) {
-                  throw new Error(
-                    `Failed to fetch log from URL: ${response.status} ${response.statusText}`,
-                  );
-                }
-                return response.text();
-              })
-              .then((text) => dialogCb({ log: text, error: null }))
-              .catch((err) => {
-                dialogCb({ log: null, error: err.message });
-              });
-          }
-        }}
+        cb={uploadLogDialogCb}
         strings={{
           dialogTitle: 'Upload Log from URL',
           urlInputLabel: 'Log URL',
@@ -173,7 +187,7 @@ const LogViewer: React.FC = () => {
         }}
       />
       <PasteTextDialog
-        cb={(result) => dialogCb({ log: result, error: '' })}
+        cb={pasteLogDialogCb}
         strings={{
           dialogTitle: 'Paste Log',
           textareaPlaceholder: 'Paste your log here...',

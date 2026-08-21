@@ -3,9 +3,9 @@ import { useCallback, useMemo } from 'preact/hooks';
 import {
   type CommandBarActions,
   useCommandBar,
-} from '../../contexts/CommandBarContext';
-import { openFile } from '../../utils/open-file';
-import { saveFile } from '../../utils/save-file';
+} from '../../contexts/CommandBarContext.tsx';
+import { openFile } from '../../utils/open-file.ts';
+import { saveFile } from '../../utils/save-file.ts';
 import styles from './Base64.module.css';
 
 const decoder = new TextDecoder();
@@ -44,7 +44,7 @@ const Base64: React.FC = () => {
         text.value.split('\n').length,
         base64.value.split('\n').length,
       );
-      const lineHeight = parseFloat(
+      const lineHeight = Number.parseFloat(
         getComputedStyle(text).lineHeight.replace('px', ''),
       );
 

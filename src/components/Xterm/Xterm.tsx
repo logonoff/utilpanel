@@ -1,9 +1,9 @@
 import { P } from '@shalecss/react';
 import { forwardRef, lazy, Suspense } from 'preact/compat';
-import type { TerminalProps, TerminalRef } from './XtermInternal';
+import type { TerminalProps, TerminalRef } from './XtermInternal.tsx';
 
 export const xtermLoader = () =>
-  import('./XtermInternal' /* webpackChunkName: "XtermInternal" */).then(
+  import('./XtermInternal.tsx' /* webpackChunkName: "XtermInternal" */).then(
     (module) => ({
       default: module.XtermInternal,
     }),

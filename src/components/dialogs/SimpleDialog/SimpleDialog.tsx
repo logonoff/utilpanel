@@ -23,30 +23,28 @@ export const SimpleDialog: React.FC<SimpleDialogProps> = ({
   title,
   children,
   actions,
-}) => {
-  return (
-    <Dialog id={id} style={{ minWidth: 'min(95vw, 400px)' }}>
-      <Header compact>
-        <HeaderTitle>
-          <HeaderText>{title}</HeaderText>
-        </HeaderTitle>
-        <CaptionMenu>
-          <CaptionButton
-            title="Close"
-            type="button"
-            commandfor={id}
-            command="close"
-          >
-            ×
-          </CaptionButton>
-        </CaptionMenu>
-      </Header>
-      {children}
-      {actions && (
-        <CommandBar variant="space-between" gutter>
-          {actions}
-        </CommandBar>
-      )}
-    </Dialog>
-  );
-};
+}) => (
+  <Dialog id={id} style={{ minWidth: 'min(95vw, 400px)' }}>
+    <Header compact={true}>
+      <HeaderTitle>
+        <HeaderText>{title}</HeaderText>
+      </HeaderTitle>
+      <CaptionMenu>
+        <CaptionButton
+          title="Close"
+          type="button"
+          commandfor={id}
+          command="close"
+        >
+          ×
+        </CaptionButton>
+      </CaptionMenu>
+    </Header>
+    {children}
+    {!!actions && (
+      <CommandBar variant="space-between" gutter={true}>
+        {actions}
+      </CommandBar>
+    )}
+  </Dialog>
+);

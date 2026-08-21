@@ -9,23 +9,25 @@ import {
   Select,
 } from '@shalecss/react';
 import { useCallback, useMemo, useState } from 'preact/hooks';
-import { Markdown, markdownLoader } from '../../components/Markdown/Markdown';
+import {
+  Markdown,
+  markdownLoader,
+} from '../../components/Markdown/Markdown.tsx';
 import {
   type CommandBarActions,
   useCommandBar,
-} from '../../contexts/CommandBarContext';
-import { getOnPreInteractProps } from '../../utils/preload-page';
-import { saveFile } from '../../utils/save-file';
-import { openTextInNewTab } from '../../utils/text-in-new-tab';
+} from '../../contexts/CommandBarContext.tsx';
+import { getOnPreInteractProps } from '../../utils/preload-page.ts';
+import { saveFile } from '../../utils/save-file.ts';
+import { openTextInNewTab } from '../../utils/text-in-new-tab.ts';
 import styles from './GitHubChangelog.module.css';
 
 /** demotes all markdown headings by 1 level */
-const demoteMarkdownHeadings = (markdown: string): string => {
-  return markdown.replace(/^(#{1,6})\s/gm, (_, hashes) => {
+const demoteMarkdownHeadings = (markdown: string): string =>
+  markdown.replace(/^(#{1,6})\s/gm, (_, hashes) => {
     const newLevel = Math.min(hashes.length + 1, 6);
     return `${'#'.repeat(newLevel)} `;
   });
-};
 
 const GitHubChangelog: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
@@ -166,7 +168,7 @@ const GitHubChangelog: React.FC = () => {
             name="url"
             placeholder="Enter a GitHub URL..."
             class={styles.urlbox}
-            required
+            required={true}
           />
           <Button
             type="submit"
@@ -193,7 +195,7 @@ const GitHubChangelog: React.FC = () => {
           />
         </details>
       </FlexForm>
-      {error && (
+      {!!error && (
         <Note variant="alert">
           <NoteText>
             {error ? error : 'Enter a GitHub URL to fetch the changelog.'}
@@ -201,7 +203,7 @@ const GitHubChangelog: React.FC = () => {
         </Note>
       )}
       {markdown === false && <P class="empty">Loading changelog...</P>}
-      {markdown && (
+      {!!markdown && (
         <div class={styles.markdown}>
           <Markdown content={markdown} />
         </div>

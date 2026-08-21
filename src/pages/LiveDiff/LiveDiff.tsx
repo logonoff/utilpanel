@@ -1,14 +1,19 @@
 import { FlexContainer, P, Textarea } from '@shalecss/react';
 import { diffLines } from 'diff';
-import { type StateUpdater, useMemo, useState } from 'preact/hooks';
-import { Diff } from '../../components/Diff/Diff';
+import {
+  type StateUpdater,
+  useCallback,
+  useMemo,
+  useState,
+} from 'preact/hooks';
+import { Diff } from '../../components/Diff/Diff.tsx';
 import {
   type CommandBarActions,
   useCommandBar,
-} from '../../contexts/CommandBarContext';
-import { openFile } from '../../utils/open-file';
-import { saveFile } from '../../utils/save-file';
-import { openTextInNewTab } from '../../utils/text-in-new-tab';
+} from '../../contexts/CommandBarContext.tsx';
+import { openFile } from '../../utils/open-file.ts';
+import { saveFile } from '../../utils/save-file.ts';
+import { openTextInNewTab } from '../../utils/text-in-new-tab.ts';
 import styles from './LiveDiff.module.css';
 
 const sortAlpha: StateUpdater<string> = (text: string) =>
@@ -19,8 +24,8 @@ const LiveDiff: React.FC = () => {
   const [after, setAfter] = useState<string>('');
 
   const diff = useMemo(() => {
-    if (!before || !after) {
-      return undefined;
+    if (!(before && after)) {
+      return;
     }
 
     return diffLines(before, after)
@@ -89,6 +94,20 @@ const LiveDiff: React.FC = () => {
 
   useCommandBar('livediff', actions);
 
+  const updateBefore = useCallback<
+    React.EventHandler<React.ChangeEvent<HTMLTextAreaElement>>
+  >((e) => {
+    const target = e.currentTarget;
+    setBefore(target.value);
+  }, []);
+
+  const updateAfter = useCallback<
+    React.EventHandler<React.ChangeEvent<HTMLTextAreaElement>>
+  >((e) => {
+    const target = e.currentTarget;
+    setAfter(target.value);
+  }, []);
+
   return (
     <FlexContainer>
       <div class={styles.input}>
@@ -96,14 +115,14 @@ const LiveDiff: React.FC = () => {
           <Textarea
             placeholder="Original text"
             value={before}
-            onChange={(e) => setBefore(e.currentTarget.value)}
+            onChange={updateBefore}
           />
         </div>
         <div class={styles.after}>
           <Textarea
             placeholder="Modified text"
             value={after}
-            onChange={(e) => setAfter(e.currentTarget.value)}
+            onChange={updateAfter}
           />
         </div>
       </div>

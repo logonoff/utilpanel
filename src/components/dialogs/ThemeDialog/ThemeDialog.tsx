@@ -3,7 +3,7 @@ import { useEffect, useState } from 'preact/hooks';
 import {
   type CommonDialogProps,
   SimpleDialog,
-} from '../SimpleDialog/SimpleDialog';
+} from '../SimpleDialog/SimpleDialog.tsx';
 
 const useUserStorageTheme = () => {
   const [theme, setTheme] = useState<string | undefined>(undefined);
@@ -75,6 +75,12 @@ const useUserStorageTheme = () => {
 export const ThemeDialog: React.FC<CommonDialogProps> = ({ id }) => {
   const [theme, setTheme] = useUserStorageTheme();
 
+  const setSystemTheme = () => setTheme('system');
+  const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const target = e.currentTarget;
+    setTheme(target.value);
+  };
+
   return (
     <SimpleDialog
       id={id}
@@ -84,7 +90,7 @@ export const ThemeDialog: React.FC<CommonDialogProps> = ({ id }) => {
           <Button commandfor={id} command="close">
             OK
           </Button>
-          <Button variant="secondary" onClick={() => setTheme('system')}>
+          <Button variant="secondary" onClick={setSystemTheme}>
             Reset
           </Button>
         </FlexContainer>
@@ -93,10 +99,7 @@ export const ThemeDialog: React.FC<CommonDialogProps> = ({ id }) => {
       <FlexContainer variant="center">
         <P>Change the theme:</P>
         <FlexForm>
-          <Select
-            defaultValue={theme || 'system'}
-            onChange={(e) => setTheme(e.currentTarget.value)}
-          >
+          <Select defaultValue={theme || 'system'} onChange={onSelectChange}>
             <option value="system">Follow system</option>
             <option value="light">Light</option>
             <option value="dark">Dark</option>

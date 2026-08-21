@@ -47,10 +47,10 @@ export const PasteTextDialog: React.FC<PasteTextDialogProps> = ({
       <form id={`${id}-form`} onSubmit={loadText} method="dialog">
         <div class="dialog-form">
           <Textarea
-            required
+            required={true}
             name="textarea"
             id={`${id}-textarea`}
-            autofocus
+            autofocus={true}
             placeholder={strings.textareaPlaceholder}
             onPaste={loadTextOnPaste}
           />
@@ -58,11 +58,11 @@ export const PasteTextDialog: React.FC<PasteTextDialogProps> = ({
             type="checkbox"
             name="pasteAutoSubmit"
             id={`${id}-pasteAutoSubmit`}
-            defaultChecked
+            defaultChecked={true}
             label="Automatically submit on paste"
           />
         </div>
-        <CommandBar variant="space-between" gutter>
+        <CommandBar variant="space-between" gutter={true}>
           <Button type="submit">{strings.loadButtonText}</Button>
           <Button
             type="button"

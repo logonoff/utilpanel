@@ -1,5 +1,5 @@
 import { Button, FlexContainer, H4, P } from '@shalecss/react';
-import { useMemo } from 'preact/hooks';
+import { useCallback, useMemo } from 'preact/hooks';
 import {
   type CommandBarActions,
   useCommandBar,
@@ -12,9 +12,36 @@ import styles from './Home.module.css';
 
 const items = Object.entries(pages).filter(([key]) => key !== 'home');
 
-const Home: React.FC = () => {
+const HomeButton: React.FC<{
+  page: (typeof pages)[string];
+  pageId: string;
+}> = ({ page, pageId }) => {
   const { navigateTo } = useNavigation();
 
+  const goToPage = useCallback(() => {
+    navigateTo(pageId);
+  }, [navigateTo, pageId]);
+
+  return (
+    <Button
+      class={styles.item}
+      variant="secondary"
+      key={pageId}
+      href={`#${pageId}`}
+      Component="a"
+      onClick={goToPage}
+      {...getPreloadPageProps(pageId)}
+    >
+      <P>
+        <strong>{page.name}</strong>
+        <br />
+        {page.description}
+      </P>
+    </Button>
+  );
+};
+
+const Home: React.FC = () => {
   const actions = useMemo<CommandBarActions>(() => ({}), []);
 
   useCommandBar('home', actions);
@@ -28,21 +55,7 @@ const Home: React.FC = () => {
       {items.length === 0 && <P class="empty">This app is empty</P>}
       <FlexContainer class={styles.items}>
         {items.map(([key, page]) => (
-          <Button
-            class={styles.item}
-            variant="secondary"
-            key={key}
-            href={`#${key}`}
-            Component="a"
-            onClick={() => navigateTo(key)}
-            {...getPreloadPageProps(key)}
-          >
-            <P>
-              <strong>{page.name}</strong>
-              <br />
-              {page.description}
-            </P>
-          </Button>
+          <HomeButton key={key} page={page} pageId={key} />
         ))}
       </FlexContainer>
     </FlexContainer>

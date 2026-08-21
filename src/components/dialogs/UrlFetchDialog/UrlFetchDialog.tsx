@@ -29,29 +29,36 @@ export const UrlFetchDialog: React.FC<UrlFetchDialogProps> = ({
     [cb],
   );
 
+  const onFetchUrlPaste = useCallback<
+    React.ClipboardEventHandler<HTMLInputElement>
+  >(
+    (e) => {
+      const pasteAutoSubmit = document.querySelector<HTMLInputElement>(
+        `#${id}-pasteAutoSubmit`,
+      )?.checked;
+      const clipboardData = e.clipboardData?.getData('text/plain');
+      try {
+        new URL(clipboardData || '');
+        if (pasteAutoSubmit && clipboardData) {
+          cb(clipboardData);
+          document.querySelector<HTMLDialogElement>(`#${id}`)?.close();
+        }
+      } catch {}
+    },
+    [cb, id],
+  );
+
   return (
     <SimpleDialog id={id} title={strings.dialogTitle}>
       <form id={`${id}-form`} onSubmit={onSubmit} method="dialog">
         <div class="dialog-form">
           <Input
             type="url"
-            autofocus
-            required
+            autofocus={true}
+            required={true}
             name="fetchUrl"
             label={strings.urlInputLabel}
-            onPaste={(e) => {
-              const pasteAutoSubmit = document.querySelector<HTMLInputElement>(
-                `#${id}-pasteAutoSubmit`,
-              )?.checked;
-              const clipboardData = e.clipboardData?.getData('text/plain');
-              try {
-                new URL(clipboardData || '');
-                if (pasteAutoSubmit && clipboardData) {
-                  cb(clipboardData);
-                  document.querySelector<HTMLDialogElement>(`#${id}`)?.close();
-                }
-              } catch {}
-            }}
+            onPaste={onFetchUrlPaste}
             id={`${id}-url-input`}
             placeholder={strings.urlInputPlaceholder}
           />
@@ -59,11 +66,11 @@ export const UrlFetchDialog: React.FC<UrlFetchDialogProps> = ({
             type="checkbox"
             name="pasteAutoSubmit"
             id={`${id}-pasteAutoSubmit`}
-            defaultChecked
+            defaultChecked={true}
             label="Automatically submit on paste"
           />
         </div>
-        <CommandBar variant="space-between" gutter>
+        <CommandBar variant="space-between" gutter={true}>
           <Button type="submit">{strings.loadButtonText}</Button>
           <Button
             type="button"

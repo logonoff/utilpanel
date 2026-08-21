@@ -35,27 +35,23 @@ export const XtermInternal = forwardRef<TerminalRef, TerminalProps>(
   (props: TerminalProps, ref) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
 
-    const terminalRef = useRef<ReturnType<typeof createXterm> | null>(null);
-
-    if (!terminalRef.current) {
-      terminalRef.current = createXterm(props);
-    }
-
-    const term = terminalRef.current;
+    const terminalRef = useRef<ReturnType<typeof createXterm>>(
+      createXterm(props),
+    );
 
     const handleContainerRef = (node: HTMLDivElement | null) => {
       containerRef.current = node;
       if (node) {
-        term.term.open(node);
-        term.fitAddon.fit();
+        terminalRef.current.term.open(node);
+        terminalRef.current.fitAddon.fit();
       }
     };
 
     useImperativeHandle(ref, () => ({
-      getTerminal: () => term.term,
-      getFitAddon: () => term.fitAddon,
-      getWebLinksAddon: () => term.webLinksAddon,
-      getSearchAddon: () => term.searchAddon,
+      getTerminal: () => terminalRef.current.term,
+      getFitAddon: () => terminalRef.current.fitAddon,
+      getWebLinksAddon: () => terminalRef.current.webLinksAddon,
+      getSearchAddon: () => terminalRef.current.searchAddon,
     }));
 
     return (

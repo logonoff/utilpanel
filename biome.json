@@ -28,10 +28,17 @@
   "linter": {
     "enabled": true,
     "domains": {
-      "react": "recommended"
+      "react": "recommended",
+      "types": "all"
     },
     "rules": {
-      "preset": "recommended"
+      "preset": "recommended",
+      "performance": {
+        "noJsxPropsBind": "error"
+      },
+      "suspicious": {
+        "noLeakedRender": "error"
+      }
     }
   }
 }

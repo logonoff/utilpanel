@@ -107,6 +107,7 @@ const renderChangeGroup = (group: DiffChange, idx: number) => {
     if (removedLines != null) {
       elements.push(
         <div key={`${idx}-removed-${j}`} class={styles.removed}>
+          {/** biome-ignore lint/suspicious/noLeakedRender: not a leaked value, i want to render this */}
           {wordDiff ? <>-{wordDiff.removedSpans}</> : removedLines}
         </div>,
       );
@@ -115,6 +116,7 @@ const renderChangeGroup = (group: DiffChange, idx: number) => {
     if (addedLines != null) {
       elements.push(
         <div key={`${idx}-added-${j}`} class={styles.added}>
+          {/** biome-ignore lint/suspicious/noLeakedRender: not a leaked value, i want to render this */}
           {wordDiff ? <>+{wordDiff.addedSpans}</> : addedLines}
         </div>,
       );

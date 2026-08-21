@@ -8,16 +8,16 @@ import {
   P,
 } from '@shalecss/react';
 import { useCallback, useMemo, useState } from 'preact/hooks';
-import { Diff } from '../../components/Diff/Diff';
-import { PasteTextDialog } from '../../components/dialogs/PasteTextDialog/PasteTextDialog';
-import { UrlFetchDialog } from '../../components/dialogs/UrlFetchDialog/UrlFetchDialog';
+import { Diff } from '../../components/Diff/Diff.tsx';
+import { PasteTextDialog } from '../../components/dialogs/PasteTextDialog/PasteTextDialog.tsx';
+import { UrlFetchDialog } from '../../components/dialogs/UrlFetchDialog/UrlFetchDialog.tsx';
 import {
   type CommandBarActions,
   useCommandBar,
-} from '../../contexts/CommandBarContext';
-import { openFile } from '../../utils/open-file';
-import { saveFile } from '../../utils/save-file';
-import { openTextInNewTab } from '../../utils/text-in-new-tab';
+} from '../../contexts/CommandBarContext.tsx';
+import { openFile } from '../../utils/open-file.ts';
+import { saveFile } from '../../utils/save-file.ts';
+import { openTextInNewTab } from '../../utils/text-in-new-tab.ts';
 import styles from './DiffViewer.module.css';
 
 const translateGitHubPrLinkToApiUrl = (url: string): string => {
@@ -137,7 +137,7 @@ const DiffViewer: React.FC = () => {
             setText(null);
             setError(null);
           },
-          disabled: !text && !error,
+          disabled: !(text || error),
         },
       ],
     }),
@@ -145,6 +145,13 @@ const DiffViewer: React.FC = () => {
   );
 
   useCommandBar('diffviewer', actions);
+
+  const onPasteTextDialogCb = useCallback((result: string | null) => {
+    if (result !== null) {
+      setText(result);
+      setError(null);
+    }
+  }, []);
 
   return (
     <FlexContainer>
@@ -154,12 +161,12 @@ const DiffViewer: React.FC = () => {
           type="url"
           name="url"
           placeholder="Enter link to diff or a GitHub PR link"
-          required
+          required={true}
         />
         <Button type="submit">Fetch</Button>
       </FlexForm>
       {text === false && <P class="empty">Loading...</P>}
-      {error && (
+      {!!error && (
         <Note variant="alert">
           <strong>{error.title}</strong>
           <NoteText>{error.message}</NoteText>
@@ -177,12 +184,7 @@ const DiffViewer: React.FC = () => {
         }}
       />
       <PasteTextDialog
-        cb={(result) => {
-          if (result !== null) {
-            setText(result);
-            setError(null);
-          }
-        }}
+        cb={onPasteTextDialogCb}
         strings={{
           dialogTitle: 'Paste Diff',
           textareaPlaceholder: 'Paste your diff here...',

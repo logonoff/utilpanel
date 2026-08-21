@@ -2,9 +2,10 @@ import { Button, FlexContainer, Link, P } from '@shalecss/react';
 import {
   type CommonDialogProps,
   SimpleDialog,
-} from '../SimpleDialog/SimpleDialog';
+} from '../SimpleDialog/SimpleDialog.tsx';
 
-const COMMIT = process.env.COMMIT_HASH || 'unknown';
+// @ts-expect-error trust me bro it's in rsbuild.config.ts
+const COMMIT = import.meta.COMMIT_HASH || 'unknown';
 
 export const AboutDialog: React.FC<CommonDialogProps> = ({ id }) => (
   <SimpleDialog

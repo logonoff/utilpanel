@@ -8,7 +8,7 @@ import {
   useMemo,
   useState,
 } from 'preact/hooks';
-import { useNavigation } from './NavigationContext';
+import { useNavigation } from './NavigationContext.tsx';
 
 export interface CommandBarAction
   extends ButtonHTMLAttributes<HTMLButtonElement>,

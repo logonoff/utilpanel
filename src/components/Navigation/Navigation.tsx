@@ -18,11 +18,12 @@ import styles from './Navigation.module.css';
 
 const HeaderBarButton: React.FC<{ page: string }> = ({ page }) => {
   const { navigateTo } = useNavigation();
+  const navigateToPage = () => navigateTo(page);
 
   return (
     <MenuBarButton
       href={`#${page}`}
-      onClick={() => navigateTo(page)}
+      onClick={navigateToPage}
       {...getPreloadPageProps(page)}
     >
       {pages[page]?.name || page}
@@ -37,12 +38,13 @@ const HeaderBar: React.FC = IS_IN_IFRAME
   ? () => null
   : () => {
       const { currentPage, navigateTo } = useNavigation();
+      const goHome = () => navigateTo('home');
 
       return (
         <Nav>
           <div class={styles.breadcrumbs}>
             <MenuBarButton
-              onClick={() => navigateTo('home')}
+              onClick={goHome}
               class={styles.logo}
               href="#home"
               tabIndex={-1} // duplicate link so no point having it tabbable
