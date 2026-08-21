@@ -1,12 +1,6 @@
 import { FlexContainer, P, Textarea } from '@shalecss/react';
 import { diffLines } from 'diff';
-import {
-  type StateUpdater,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'preact/hooks';
+import { type StateUpdater, useMemo, useState } from 'preact/hooks';
 import { Diff } from '../../components/Diff/Diff';
 import {
   type CommandBarActions,
@@ -23,15 +17,13 @@ const sortAlpha: StateUpdater<string> = (text: string) =>
 const LiveDiff: React.FC = () => {
   const [before, setBefore] = useState<string>('');
   const [after, setAfter] = useState<string>('');
-  const [diff, setDiff] = useState<string | undefined>(undefined);
 
-  const computeDiff = useCallback(() => {
+  const diff = useMemo(() => {
     if (!before || !after) {
-      setDiff(undefined);
-      return;
+      return undefined;
     }
-    const diffResult = diffLines(before, after);
-    const formattedDiff = diffResult
+
+    return diffLines(before, after)
       .map((part) => {
         const prefix = part.added ? '+' : part.removed ? '-' : ' ';
         return part.value
@@ -41,12 +33,7 @@ const LiveDiff: React.FC = () => {
           .join('\n');
       })
       .join('\n');
-    setDiff(formattedDiff);
   }, [before, after]);
-
-  useEffect(() => {
-    computeDiff();
-  }, [before, after, computeDiff]);
 
   const actions = useMemo<CommandBarActions>(
     () => ({
@@ -84,7 +71,6 @@ const LiveDiff: React.FC = () => {
           onClick: () => {
             setBefore('');
             setAfter('');
-            setDiff(undefined);
           },
           disabled: !diff,
         },

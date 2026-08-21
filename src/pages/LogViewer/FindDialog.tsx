@@ -34,7 +34,7 @@ export const FindDialog: React.FC<FindDialogProps> = ({ getSearchAddon }) => {
         searchAddon.findNext(searchTerm, opts);
       }
     }
-  }, []);
+  }, [getSearchAddon]);
 
   return (
     <SimpleDialog id="find-dialog" title="Find">

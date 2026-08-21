@@ -33,7 +33,7 @@ const LogViewer: React.FC = () => {
 
   const uploadLog = useCallback(() => {
     openFile(setLog);
-  }, [setLog]);
+  }, []);
 
   const actions = useMemo<CommandBarActions>(
     () => ({
@@ -62,15 +62,26 @@ const LogViewer: React.FC = () => {
           commandfor: 'find-dialog',
           ariaHaspopup: 'dialog',
         },
+        {
+          name: 'Clear log',
+          onClick: () => {
+            setLog(null);
+            setError(null);
+          },
+          disabled: !log && !error,
+        },
       ],
     }),
-    [uploadLog],
+    [uploadLog, log, error],
   );
   useCommandBar('logviewer', actions);
 
-  const getTerminal = () => terminalRef.current?.getTerminal();
-  const getFitAddon = () => terminalRef.current?.getFitAddon();
-  const getSearchAddon = () => terminalRef.current?.getSearchAddon();
+  const getTerminal = useCallback(() => terminalRef.current?.getTerminal(), []);
+  const getFitAddon = useCallback(() => terminalRef.current?.getFitAddon(), []);
+  const getSearchAddon = useCallback(
+    () => terminalRef.current?.getSearchAddon(),
+    [],
+  );
 
   const handleResize = useCallback(
     debounce(() => {
@@ -89,7 +100,7 @@ const LogViewer: React.FC = () => {
       getTerminal()?.write(log);
       getTerminal()?.write('\x1b[?25l');
     }
-  }, [log]);
+  }, [getTerminal, log, handleResize]);
 
   const dialogCb = useCallback<DialogProps['cb']>(
     ({ error, log }) => {
@@ -97,7 +108,7 @@ const LogViewer: React.FC = () => {
       setError(error);
       setLog(log);
     },
-    [handleResize, setError, setLog],
+    [handleResize],
   );
 
   useEffect(() => {

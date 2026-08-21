@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: sort of unavoidable because the line numbers are only unique key */
 import { Code } from '@shalecss/react';
 import { diffWords } from 'diff';
 import { useMemo } from 'preact/hooks';

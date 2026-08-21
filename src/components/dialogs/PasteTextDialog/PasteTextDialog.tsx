@@ -25,19 +25,22 @@ export const PasteTextDialog: React.FC<PasteTextDialogProps> = ({
       '';
 
     cb(textareaText);
-  }, [cb]);
+  }, [cb, id]);
 
   const loadTextOnPaste = useCallback<
     React.ClipboardEventHandler<HTMLTextAreaElement>
-  >((e) => {
-    if (
-      document.querySelector<HTMLInputElement>(`#${id}-pasteAutoSubmit`)
-        ?.checked
-    ) {
-      cb(e?.clipboardData?.getData('text/plain') || '');
-      document.querySelector<HTMLDialogElement>(`#${id}`)?.close();
-    }
-  }, []);
+  >(
+    (e) => {
+      if (
+        document.querySelector<HTMLInputElement>(`#${id}-pasteAutoSubmit`)
+          ?.checked
+      ) {
+        cb(e?.clipboardData?.getData('text/plain') || '');
+        document.querySelector<HTMLDialogElement>(`#${id}`)?.close();
+      }
+    },
+    [cb, id],
+  );
 
   return (
     <SimpleDialog id={id} title={strings.dialogTitle}>

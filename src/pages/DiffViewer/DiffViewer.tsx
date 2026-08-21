@@ -45,44 +45,41 @@ const DiffViewer: React.FC = () => {
     null,
   );
 
-  const loadDiffFromUrl = useCallback(
-    (urlInput: string) => {
-      let url: URL | null = null;
+  const loadDiffFromUrl = useCallback((urlInput: string) => {
+    let url: URL | null = null;
 
-      try {
-        url = new URL(translateGitHubPrLinkToApiUrl(urlInput));
-      } catch (e) {
-        alert(e instanceof Error ? e.message : 'Invalid URL');
-        return;
-      }
+    try {
+      url = new URL(translateGitHubPrLinkToApiUrl(urlInput));
+    } catch (e) {
+      alert(e instanceof Error ? e.message : 'Invalid URL');
+      return;
+    }
 
-      fetch(url.toString(), {
-        headers: {
-          Accept: 'application/vnd.github.v3.diff',
-        },
+    fetch(url.toString(), {
+      headers: {
+        Accept: 'application/vnd.github.v3.diff',
+      },
+    })
+      .then(async (response) => {
+        if (!response.ok) {
+          const body = await response.text();
+          throw new Error(body, { cause: response.status });
+        }
+        return response.text();
       })
-        .then(async (response) => {
-          if (!response.ok) {
-            const body = await response.text();
-            throw new Error(body, { cause: response.status });
-          }
-          return response.text();
-        })
-        .then((data) => {
-          setText(data);
-          setError(null);
-        })
-        .catch((err) => {
-          setError(
-            err instanceof Error
-              ? { title: `HTTP Error ${err.cause}!`, message: err.message }
-              : { title: 'Error', message: 'Unknown error' },
-          );
-          setText(null);
-        });
-    },
-    [setText, setError],
-  );
+      .then((data) => {
+        setText(data);
+        setError(null);
+      })
+      .catch((err) => {
+        setError(
+          err instanceof Error
+            ? { title: `HTTP Error ${err.cause}!`, message: err.message }
+            : { title: 'Error', message: 'Unknown error' },
+        );
+        setText(null);
+      });
+  }, []);
 
   const handleSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>(
     (event) => {
@@ -144,7 +141,7 @@ const DiffViewer: React.FC = () => {
         },
       ],
     }),
-    [text],
+    [text, error],
   );
 
   useCommandBar('diffviewer', actions);

@@ -60,6 +60,7 @@ export const MarkdownInternal = ({ content }: MarkdownInternalProps) => {
   return (
     <article
       class={styles.markdown}
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: Cause dompurify is used
       dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
     />
   );
